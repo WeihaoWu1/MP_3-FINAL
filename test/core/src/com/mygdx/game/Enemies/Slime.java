@@ -95,9 +95,60 @@ public class Slime{
 
 
     public void render() {
-            stateTime += Gdx.graphics.getDeltaTime();
-            TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-            gdxGame.batch.draw(currentFrame, hitBox.x, hitBox.y);
+        stateTime += Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
+        gdxGame.batch.draw(currentFrame, hitBox.x, hitBox.y);
+        // MAP 4
+        if (hitBox.x > 627 && hitBox.y == 835) {
+            hitBox.x -= 1f;
+        }
+        if (hitBox.x >= 526 && hitBox.y >= 726 && hitBox.x <= 627 && hitBox.y <= 835) {
+            hitBox.y -= 1f;
+            hitBox.x -= 1f;
+        }
+        if (hitBox.x == 525 && hitBox.y > 635) {
+            hitBox.y -= 1f;
+        }
+        if (hitBox.y <= 635 && hitBox.x >= 525 && hitBox.x < 628 && hitBox.y >= 532) {
+            hitBox.x += 1f;
+            hitBox.y -= 1f;
+        }
+        if (hitBox.x < 738 && hitBox.y == 532) {
+            hitBox.x += 1f;
+        }
+        if (hitBox.y <= 532 && hitBox.x >= 738 && hitBox.x < 828 && hitBox.y >= 442) {
+            hitBox.x += 1f;
+            hitBox.y -= 1f;
+        }
+        if (hitBox.x == 828 && hitBox.y > 291 && hitBox.y <= 442) {
+            hitBox.y -= 1f;
+            int max = 10;
+            int min = 1;
+            int range = max - min + 1;
+            rand = (int) (Math.random() * range) + min;
+            rand = 1;
+        }
+        if (rand > 5 && hitBox.y == 291 && hitBox.x < 882) {
+            hitBox.x++;
+        }
+        if (rand>5&&hitBox.y <= 291 && hitBox.x >= 882&& hitBox.x<954&& hitBox.y>=219){
+            hitBox.x += 1f;
+            hitBox.y-=1f;
+        }
+        if (rand > 5 && hitBox.y == 219 && hitBox.x < Integer.MAX_VALUE) {
+            hitBox.x++;
+        }
+        if (rand <= 5 && hitBox.y == 291 && hitBox.x > 728) {
+            hitBox.x--;
+        }
+        if (rand <= 5 &&hitBox.x <= 728 && hitBox.y >=181 && hitBox.x >= 624 && hitBox.y <= 291) {
+            hitBox.y -= 1f;
+            hitBox.x -= 1f;
+        }
+        if(rand <= 5 &&hitBox.x == 623&&hitBox.y>Integer.MIN_VALUE){
+            hitBox.y -= 1f;
+        }
+        // Map 3
         if ( hitBox.x < 145) {
             hitBox.x += 1f;
         }
