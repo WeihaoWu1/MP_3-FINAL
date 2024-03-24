@@ -9,10 +9,8 @@ import com.mygdx.game.gdxGame;
 import java.awt.*;
 
 public class MenuScreen implements Screen, InputProcessor {
-    private Texture menuIcon = new Texture("tower-defense-game.png");
+    private Texture menuIcon = new Texture("menu.png");
     private gdxGame game;
-    private int x;
-    private int y;
 
     public MenuScreen(gdxGame game){
         this.game = game;
@@ -29,8 +27,7 @@ public class MenuScreen implements Screen, InputProcessor {
         gdxGame.batch.begin();
         gdxGame.batch.draw(menuIcon, 0, 0 ,1760,1080);
         gdxGame.batch.end();
-        if (x != 0) System.out.println(x);
-        if (y!=0) System.out.println(y);
+
     }
 
     @Override
@@ -79,9 +76,10 @@ public class MenuScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        //676 - 892
-        //798 - 1048
-        if (screenX > 676 && screenX < 892 && screenY > 798 && screenY < 1048) {
+        //656 - 1070
+        //873 - 1008
+        if (screenX >= 656 && screenX <= 1070 && screenY >= 873 && screenY <= 1008) {
+            game.setScreen(new MapSelection(game));
             return true;
         }
         return false;

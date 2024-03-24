@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 public abstract class Hitboxes {
-
     public float x ,y;
     public int width, height;
     public Rectangle hitBox;

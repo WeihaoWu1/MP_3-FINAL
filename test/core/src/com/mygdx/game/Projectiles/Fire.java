@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.Enemies.Minotaur;
 import com.mygdx.game.Screens.PlayScreen;
-import com.mygdx.game.Towers.FireTowerAnimation;
+import com.mygdx.game.Towers.FireTower;
 import com.mygdx.game.gdxGame;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -39,7 +39,7 @@ public class Fire {
         hitBox.setY(initialY);
     }
 
-    public void render(FireTowerAnimation f) {
+    public void render(FireTower f) {
         if (getClosest() != null && Intersector.overlaps(f.getHitBox(), getClosest().getHitBox()))
             gdxGame.batch.draw(fire, hitBox.x, hitBox.y);
     }
@@ -59,14 +59,16 @@ public class Fire {
         return shortestMinotaur;
     }
 
-    public  void intersects(FireTowerAnimation f) {
+    public  void intersects(FireTower f) {
         for (int i = PlayScreen.minotaurs.size() - 1; i >= 0; i--) {
             if (PlayScreen.minotaurs.get(i) == (getClosest())) {
 //                System.out.println("affs");
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(f.getHitBox(), hitBox))) {
                     System.out.println("hit");
                     getClosest().health -= 20;
-                    if (getClosest().health <= 0) {
+                    f.getFires().get(f.getFires().size()-1).setX(999999);
+                    f.getFires().get(f.getFires().size()-1).setY(999999);
+                    if (getClosest() != null && getClosest().health <= 0) {
                         PlayScreen.dinero += 10 * (PlayScreen.level);
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {
 //                            for (Slime s : PlayScreen.slimes) {
@@ -100,7 +102,7 @@ public class Fire {
 //        }
 //    }
 
-    public void slimeDestroyedByOtherTower(FireTowerAnimation f) {
+    public void slimeDestroyedByOtherTower(FireTower f) {
         System.out.println("hit1");
         if (shortestMinotaur != null) {
             for(int i = 0;i<f.getFires().size()-1;i++){
@@ -116,7 +118,7 @@ public class Fire {
 
 
 
-    public void shoot(FireTowerAnimation f) {
+    public void shoot(FireTower f) {
         long currentTime = TimeUtils.millis();
         if (shortestMinotaur != null&& getClosest()!=null) {
             if ((Intersector.overlaps(f.getHitBox(), hitBox) && (Intersector.overlaps(f.getHitBox(), getClosest().getHitBox())))) {

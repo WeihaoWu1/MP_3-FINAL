@@ -5,16 +5,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Enemies.Minotaur;
 import com.mygdx.game.Screens.MenuScreen;
-import com.mygdx.game.Screens.PlayScreen;
-import com.mygdx.game.Towers.FireTowerAnimation;
-import com.mygdx.game.Towers.RockTowerAnimation;
+import com.mygdx.game.Towers.FireTower;
+import com.mygdx.game.Towers.RockTower;
 import java.util.ArrayList;
 
 public class gdxGame extends Game implements Runnable{
 	public static SpriteBatch batch;
 	Texture img;
-	public static ArrayList<FireTowerAnimation> firetowers = new ArrayList<FireTowerAnimation>();
-	public static ArrayList<RockTowerAnimation> rocktowers = new ArrayList<RockTowerAnimation>();
+	public static ArrayList<FireTower> firetowers = new ArrayList<FireTower>();
+	public static ArrayList<RockTower> rocktowers = new ArrayList<RockTower>();
 
 	private double cooldown = 10;
 	private double startTime = System.nanoTime();

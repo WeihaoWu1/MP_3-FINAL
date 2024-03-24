@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.Enemies.Minotaur;
 import com.mygdx.game.Screens.PlayScreen;
-import com.mygdx.game.Towers.RockTowerAnimation;
+import com.mygdx.game.Towers.RockTower;
 import com.mygdx.game.gdxGame;
 
 public class Rock {
@@ -30,7 +30,7 @@ public class Rock {
         hitBox.setY(initialY);
     }
 
-    public void render(RockTowerAnimation r){
+    public void render(RockTower r){
         if (getClosest() != null && Intersector.overlaps(r.getHitBox(), getClosest().getHitBox()))
             gdxGame.batch.draw(rock, hitBox.x, hitBox.y);
     }
@@ -55,7 +55,7 @@ public class Rock {
             lastAttack = time;
         }
     }
-    public  void intersects(RockTowerAnimation r) {
+    public  void intersects(RockTower r) {
         for (int i = PlayScreen.minotaurs.size() - 1; i >= 0; i--) {
             if (PlayScreen.minotaurs.get(i) == (getClosest())) {
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(r.getHitBox(), hitBox))) {
@@ -81,7 +81,7 @@ public class Rock {
         }
     }
 
-    public void slimeDestroyedByOtherTower(RockTowerAnimation r) {
+    public void slimeDestroyedByOtherTower(RockTower r) {
         System.out.println("hit1");
         if (shortestMinotaur != null) {
             for(int i = 0;i<r.getRocks().size()-1;i++){
@@ -95,7 +95,7 @@ public class Rock {
         }
     }
 
-    public void shoot(RockTowerAnimation r) {
+    public void shoot(RockTower r) {
         if (shortestMinotaur != null) {
             if (Intersector.overlaps(r.getHitBox(), hitBox) && (Intersector.overlaps(r.getHitBox(), getClosest().getHitBox()))) {
                 float xIncrement;
