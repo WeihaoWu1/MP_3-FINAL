@@ -46,14 +46,19 @@ public class PlayScreen implements Screen, InputProcessor {
 
     private int fireTowerIndex;
     private int rockTowerIndex;
+    private int harpoonTowerIndex;
+    private int arrowTowerIndex;
 
     private boolean isDraggingFire;
     private boolean isDraggingRock;
+    private boolean isDraggingHarpoon;
+    private boolean isDraggingArrow;
 
     private boolean currentlyFireTower;
     private boolean currentlyRockTower;
-    private long lastAttack = 0;
-    private long coolDownTime = 1000;
+    private boolean currentlyHarpoonTower;
+    private boolean currentlyArrowTower;
+
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     public static int level = 1;
 //    public BitmapFont font = new BitmapFont();
@@ -125,7 +130,9 @@ public class PlayScreen implements Screen, InputProcessor {
 //        rocktowers.get(0).create();
         selectedFireTower.create();
         selectedRockTower.create();
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        selectedHarpoonTower.create();
+        selectedArrowTower.create();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
     }
 
     @Override
@@ -170,9 +177,7 @@ public class PlayScreen implements Screen, InputProcessor {
                 k.render(r);
                 k.getClosest();
                 k.shoot(r);
-//                k.getClosest();
                 k.intersects(r);
-//                k.shoot();
             }
         }
         for (HarpoonTower h : harpoontowers) {
@@ -201,6 +206,8 @@ public class PlayScreen implements Screen, InputProcessor {
 
         if (isDraggingFire) selectedFireTower.render();
         if (isDraggingRock) selectedRockTower.render();
+        if (isDraggingHarpoon) selectedHarpoonTower.render();
+        if (isDraggingArrow) selectedArrowTower.render();
         if (minotaurs.size() == 0) {
             level++;
             displayLevel = "Level: " + level;
@@ -246,6 +253,12 @@ public class PlayScreen implements Screen, InputProcessor {
         for (RockTower r : rocktowers) {
             r.dispose();
         }
+        for (HarpoonTower h : harpoontowers) {
+            h.dispose();
+        }
+        for (ArrowTower a : arrowtowers){
+            a.dispose();
+        }
         font.dispose();
         rockTowerButton.dispose();
         fireTowerButton.dispose();
@@ -272,15 +285,24 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (screenX > 0 && screenX < 80 && 1080-screenY > 0 && 1080-screenY < 120){
+        if (screenX > 0 && screenX < 80 && 1080-screenY-80 > 0 && 1080-screenY-80 < 120){
             currentlyFireTower = true;
             return true;
         }
-        else if (screenX > 80 && screenX < 160 && 1080-screenY > 0 && 1080-screenY < 120){
+        else if (screenX > 80 && screenX < 160 && 1080-screenY-80 > 0 && 1080-screenY-80 < 120){
             currentlyRockTower = true;
             return true;
         }
+        else if (screenX > 160 && screenX < 240 && 1080-screenY-80 > 0 && 1080-screenY-80 < 120){
+            currentlyHarpoonTower = true;
+            return true;
+        }
+        else if (screenX > 240 && screenX < 320 && 1080-screenY-80 > 0 && 1080-screenY -80< 120){
+            currentlyArrowTower = true;
+            return true;
+        }
         return false;
+
     }
 
     @Override
@@ -316,6 +338,39 @@ public class PlayScreen implements Screen, InputProcessor {
             selectedRockTower.setX(99999999);
             selectedRockTower.setY(99999999);
         }
+        if (currentlyHarpoonTower && selectedHarpoonTower.checkBox()) {
+            dinero -= 100;
+            harpoontowers.add(new HarpoonTower(screenX, 1080 - screenY-80, 150));
+            harpoontowers.get(harpoonTowerIndex).create();
+            harpoonTowerIndex++;
+            selectedHarpoonTower = new HarpoonTower(80, 0, 80);
+            selectedHarpoonTower.create();
+            isDraggingHarpoon = false;
+            currentlyHarpoonTower = false;
+
+            return true;
+        }
+        else{
+            selectedHarpoonTower.setX(99999999);
+            selectedHarpoonTower.setY(99999999);
+        }
+        if (currentlyArrowTower && selectedArrowTower.checkBox()) {
+            dinero -= 100;
+            arrowtowers.add(new ArrowTower(screenX, 1080 - screenY-80, 150));
+            arrowtowers.get(arrowTowerIndex).create();
+            arrowTowerIndex++;
+            selectedArrowTower = new ArrowTower(80, 0, 80);
+            selectedArrowTower.create();
+            isDraggingArrow = false;
+            currentlyArrowTower = false;
+
+            return true;
+        }
+        else{
+            selectedArrowTower.setX(99999999);
+            selectedArrowTower.setY(99999999);
+        }
+        System.out.println("x:"+screenX+"y"+screenY);
         return false;
 
     }
@@ -338,6 +393,17 @@ public class PlayScreen implements Screen, InputProcessor {
             selectedRockTower.setX(screenX);
             selectedRockTower.setY(1080 - screenY-80);
             return true;
+        }
+        else if (currentlyHarpoonTower){
+            isDraggingHarpoon = true;
+            selectedHarpoonTower.setX(screenX);
+            selectedHarpoonTower.setY(1080 - screenY-80);
+            return true;
+        }
+        else if (currentlyArrowTower){
+            isDraggingArrow = true;
+            selectedArrowTower.setX(screenX);
+            selectedArrowTower.setY(1080-screenY-80);
         }
         return false;
     }

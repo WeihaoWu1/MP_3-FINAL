@@ -122,7 +122,7 @@ public class FireTower extends TowerHitbox {
     public void render() {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-        gdxGame.batch.draw(currentFrame, hitBox.x-80, hitBox.y-80);
+        gdxGame.batch.draw(currentFrame, hitBox.x-175, hitBox.y-80);
 //        hitBox.setFrame(100.0d, 100.0d, 80.0d, 120.0d);
 //        gdxGame.batch.draw(hitBox);
     }

@@ -256,22 +256,26 @@ public class Minotaur {
             if (rand > 3 && hitBox.y == 291 && hitBox.x < 882) {
                 hitBox.x++;
             }
-            if (rand>3&&hitBox.y <= 291 && hitBox.x >= 882&& hitBox.x<954&& hitBox.y>=219){
+            if (rand > 3 && hitBox.y <= 291 && hitBox.x >= 882 && hitBox.x < 954 && hitBox.y >= 219) {
                 hitBox.x += 1f;
-                hitBox.y-=1f;
+                hitBox.y -= 1f;
             }
             if (rand > 3 && hitBox.y == 219 && hitBox.x < Integer.MAX_VALUE) {
                 hitBox.x++;
             }
+
             if (rand <= 3 && hitBox.y == 291 && hitBox.x > 728) {
                 hitBox.x--;
             }
-            if (rand <= 3 &&hitBox.x <= 728 && hitBox.y >=181 && hitBox.x >= 624 && hitBox.y <= 291) {
+            if (rand <= 3 && hitBox.x == 827&&hitBox.y==291){
+                stopFlip = false;
+            }
+            if (rand <= 3 && hitBox.x <= 728 && hitBox.y >= 181 && hitBox.x >= 624 && hitBox.y <= 291) {
                 hitBox.y -= 1f;
                 hitBox.x -= 1f;
 
             }
-            if(rand <= 3 &&hitBox.x == 623&&hitBox.y>Integer.MIN_VALUE){
+            if (rand <= 3 && hitBox.x == 623 && hitBox.y > Integer.MIN_VALUE) {
                 hitBox.y -= 1f;
 
             }
