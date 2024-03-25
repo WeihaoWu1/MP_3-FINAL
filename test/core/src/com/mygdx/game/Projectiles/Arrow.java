@@ -151,12 +151,13 @@ public class Arrow {
                         hitBox.x += xIncrement;
                         hitBox.y -= yIncrement;
                     }
-                    count++;
-                    hitBox.setX(hitBox.x);
-                    hitBox.setY(hitBox.y);
-                } else {
-                    slimeDestroyedByOtherTower(a);
+//                    count++;
+//                    hitBox.setX(hitBox.x);
+//                    hitBox.setY(hitBox.y);
                 }
+//                else {
+//                    slimeDestroyedByOtherTower(a);
+//                }
             }
         }
     }

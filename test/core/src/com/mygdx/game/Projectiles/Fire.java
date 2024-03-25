@@ -8,6 +8,9 @@ import com.mygdx.game.Screens.PlayScreen;
 import com.mygdx.game.Towers.FireTower;
 import com.mygdx.game.gdxGame;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 
 public class Fire {
@@ -99,6 +102,7 @@ public class Fire {
                             if (PlayScreen.minotaurs.get(j).equals(shortestMinotaur)) {
                                 PlayScreen.minotaurs.get(j).setX(-99999999f);
                                 System.out.println("slime died");
+                                gdxGame.soundEffect.play();
                                 PlayScreen.minotaurs.get(j).setY(-99999999f);
                                 slimeDestroyedByOtherTower(r);
                                 PlayScreen.minotaurs.remove(j);
@@ -196,7 +200,7 @@ public class Fire {
                 xIncrement = realDist * (ratiox / 10);
                 yIncrement = realDist * (ratioy / 10);
                 if (Intersector.overlaps(f.getHitBox(), hitBox)) {
-                    if (shortestMinotaur.getX() <= f.getX() && shortestMinotaur.getY() > f.getY()) {
+                    if (shortestMinotaur.getX() <= initialX && shortestMinotaur.getY() > initialY) {
                         hitBox.x -= xIncrement;
                         hitBox.y += yIncrement;
                     }

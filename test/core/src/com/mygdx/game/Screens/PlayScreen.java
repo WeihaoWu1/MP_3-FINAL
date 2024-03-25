@@ -326,6 +326,12 @@ public class PlayScreen implements Screen, InputProcessor {
         for (ArrowTower a : arrowtowers){
             a.dispose();
         }
+        for (AlphaTower a : alphatowers){
+            a.dispose();
+        }
+        for (BetaTower a : betatowers){
+            a.dispose();
+        }
         font.dispose();
         rockTowerButton.dispose();
         fireTowerButton.dispose();
@@ -370,6 +376,14 @@ public class PlayScreen implements Screen, InputProcessor {
         }
         else if (screenX > 240 *xScale && screenX < 320*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY -80< 120*yScale){
             currentlyArrowTower = true;
+            return true;
+        }
+        else if (screenX > 320 *xScale && screenX < 400 *xScale && 1080-screenY-80 > 0*yScale && 1080-screenY -80< 120*yScale){
+            currentlyAlphaTower = true;
+            return true;
+        }
+        else if (screenX > 400 *xScale && screenX < 480*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY -80< 120*yScale){
+            currentlyBetaTower = true;
             return true;
         }
         return false;
@@ -421,24 +435,62 @@ public class PlayScreen implements Screen, InputProcessor {
             harpoonTowerIndex++;
             selectedHarpoonTower = new HarpoonTower(160, 0, 80);
             selectedHarpoonTower.create();
-            isDraggingHarpoon = false;
-            currentlyHarpoonTower = false;
 
             return true;
         }
+
         else{
             selectedHarpoonTower.setX(99999999);
             selectedHarpoonTower.setY(99999999);
         }
+        isDraggingHarpoon = false;
+        currentlyHarpoonTower = false;
+
         if (currentlyArrowTower && selectedArrowTower.checkBox()) {
             dinero -= 100;
             arrowtowers.add(new ArrowTower(screenX, 1080 - screenY-80, 150));
             arrowtowers.get(arrowTowerIndex).create();
             arrowTowerIndex++;
-            selectedArrowTower = new ArrowTower(80, 0, 80);
+            selectedArrowTower = new ArrowTower(240, 0, 80);
             selectedArrowTower.create();
-            isDraggingArrow = false;
-            currentlyArrowTower = false;
+
+
+            return true;
+        }
+        else{
+            selectedArrowTower.setX(99999999);
+            selectedArrowTower.setY(99999999);
+        }
+        isDraggingArrow = false;
+        currentlyArrowTower = false;
+
+        if (currentlyAlphaTower && selectedAlphaTower.checkBox()) {
+            dinero -= 100;
+            alphatowers.add(new AlphaTower(screenX, 1080 - screenY-80, 150));
+            alphatowers.get(alphaTowerIndex).create();
+            alphaTowerIndex++;
+            selectedAlphaTower = new AlphaTower(320, 0, 80);
+            selectedAlphaTower.create();
+
+
+            return true;
+        }
+        else{
+            selectedAlphaTower.setX(99999999);
+            selectedAlphaTower.setY(99999999);
+        }
+
+        isDraggingAlpha = false;
+        currentlyAlphaTower = false;
+        if (currentlyBetaTower && selectedBetaTower.checkBox()) {
+            dinero -= 100;
+            betatowers.add(new BetaTower(screenX, 1080 - screenY-80, 150));
+            betatowers.get(betaTowerIndex).create();
+            betaTowerIndex++;
+            selectedBetaTower = new BetaTower(400, 0, 80);
+            selectedBetaTower.create();
+            isDraggingBeta = false;
+            currentlyBetaTower = false;
 
             return true;
         }
@@ -446,6 +498,8 @@ public class PlayScreen implements Screen, InputProcessor {
             selectedBetaTower.setX(99999999);
             selectedBetaTower.setY(99999999);
         }
+        isDraggingBeta = false;
+        currentlyBetaTower = false;
         System.out.println("x:"+screenX+"y"+screenY);
         return false;
 

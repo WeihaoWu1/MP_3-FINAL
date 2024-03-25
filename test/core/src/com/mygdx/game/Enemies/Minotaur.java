@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.Screens.PlayScreen;
 import com.mygdx.game.gdxGame;
 
+
 public class Minotaur {
 
     private static final int FRAME_COLS = 18, FRAME_ROWS = 1;
@@ -283,7 +284,7 @@ public class Minotaur {
                 hitBox.y -= 1f;
 
             }
-            hitBox = new Rectangle(hitBox.x, hitBox.y, 10, 20);
+            hitBox = new Rectangle(hitBox.x, hitBox.y, 10, 10);
 //        }
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 hitBox.x -= 1;

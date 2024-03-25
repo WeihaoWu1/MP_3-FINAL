@@ -6,7 +6,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gdxGame;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+
 
 import java.util.Map;
 
@@ -93,11 +98,25 @@ public class MapSelection implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (screenX >= 93 && screenX <= 797 && screenY >= 391 && screenY <= 818) {
             mapNum = 1;
+            gdxGame.backgroundMusic.pause();
+            gdxGame.assetManager.load("map3music.mp3", Music.class);
+            gdxGame.assetManager.finishLoading();
+            gdxGame.backgroundMusic = gdxGame.assetManager.get("map3music.mp3", Music.class);
+            gdxGame.backgroundMusic.setLooping(true);
+            gdxGame.backgroundMusic.play();
+            gdxGame.backgroundMusic.setVolume(0.1f);
             game.setScreen(new PlayScreen(game, mapNum));
         }
         if (screenX >= 943 && screenX <= 1660 && screenY >= 391 && screenY <= 818){
             mapNum = 2;
+            gdxGame.backgroundMusic.pause();
+            gdxGame.assetManager.load("map3music.mp3", Music.class);
+            gdxGame.assetManager.finishLoading();
+            gdxGame.backgroundMusic = gdxGame.assetManager.get("map3music.mp3", Music.class);
+            gdxGame.backgroundMusic.setLooping(true);
+            gdxGame.backgroundMusic.play();
             game.setScreen(new PlayScreen(game, mapNum));
+            gdxGame.backgroundMusic.setVolume(0.1f);
         }
         return false;
     }

@@ -8,6 +8,9 @@ import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Towers.FireTower;
 import com.mygdx.game.Towers.RockTower;
 import java.util.ArrayList;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 public class gdxGame extends Game implements Runnable{
 	public static SpriteBatch batch;
@@ -36,30 +39,30 @@ public class gdxGame extends Game implements Runnable{
 //		gameThread = new Thread(this);
 //		gameThread.start();	}
 
-
+	public static AssetManager assetManager;
+	public static Music backgroundMusic;
+	public static Sound soundEffect;
 	@Override
 	public void create () {
-//		Gdx.graphics.getDeltaTime()
-//		startGameLoop();
 		setScreen(new MenuScreen(this));
-//		setScreen(new PlayScreen(this));
-//		currentTime = System.nanoTime();
 		batch = new SpriteBatch();
-//		img = new Texture("map3.png");
-//		fireTowerAnimation = new FireTowerAnimation();
-//		firetowers.add(fireTowerAnimation);
-//		rockTowerAnimation = new RockTowerAnimation();
-//		fireTowerAnimation.create();
-//		rockTowerAnimation.create();
-////		if (((currentTime - lastSlime) >= cooldown)) {
-//		if (slimes.size() < 5) {
-//			slimes.add(new Slime(-50, 179, 25, 25));
-//			System.out.println("added");
-//			slimeIndex++;
-//		}
-//		for (Slime s : slimes) s.create();
-//		System.out.println("Slime number" + slimeIndex);
+		assetManager = new AssetManager();
+		assetManager.load("menuMusic.mp3", Music.class);
+		assetManager.load("minotaurDeath.mp3", Sound.class);
+//		assetManager.load("audio/sound_effect.mp3", Sound.class);
+		assetManager.finishLoading();
+
+		backgroundMusic = assetManager.get("menuMusic.mp3", Music.class);
+		soundEffect = assetManager.get("minotaurDeath.mp3", Sound.class);
+//		soundEffect = assetManager.get("audio/sound_effect.mp3", Sound.class);
+
+		backgroundMusic.setLooping(true);
+		backgroundMusic.play();
+		backgroundMusic.setVolume(0.2f);
+
+
 	}
+
 
 	@Override
 	public void render () {
