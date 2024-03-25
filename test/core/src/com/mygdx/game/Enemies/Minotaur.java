@@ -42,7 +42,7 @@ public class Minotaur {
     public static boolean up = true;
     public static boolean down;
 
-    public int health = 1000;
+    public int health = 300;
 
     private Rectangle hitBox;
 
@@ -229,7 +229,10 @@ public class Minotaur {
                 hitBox.x -= 1f;
             }
             if (hitBox.y == 725){
-                stopFlip=false;
+
+//                stopFlip=false;
+//                hitBox.x = (hitBox.x+hitBox.width)*-1;
+                hitBox.x+=10;
             }
             if (hitBox.x == 525 && hitBox.y > 635) {
                 hitBox.y -= 1f;

@@ -144,6 +144,7 @@ public class Fire {
             for(int i = 0;i<f.getFires().size()-1;i++){
                 f.getFires().get(i).setX(-9999999999f);
                 f.getFires().get(i).setY(-9999999999f);
+                System.out.println("yeet");
 //                f.getFires().remove(i);
 
 //                    e.setX(-9999999);

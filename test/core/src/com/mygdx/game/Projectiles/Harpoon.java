@@ -33,15 +33,16 @@ public class Harpoon {
     }
 
     public void create() {
-        harpoon = new Sprite(harpoonicon);
-        hitBox = harpoon.getBoundingRectangle();
+//        harpoon = new Sprite(harpoonicon);
+//        hitBox = harpoon.getBoundingRectangle();
+        hitBox = new Rectangle(initialX, initialY, 5,7);
         hitBox.setX(initialX);
         hitBox.setY(initialY);
     }
 
     public void render(HarpoonTower h) {
         if (getClosest() != null && Intersector.overlaps(h.getHitBox(), getClosest().getHitBox()))
-            gdxGame.batch.draw(harpoon, hitBox.x, hitBox.y);
+            gdxGame.batch.draw(harpoonicon, hitBox.x, hitBox.y);
     }
 
     public Minotaur getClosest() {
@@ -66,8 +67,10 @@ public class Harpoon {
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(h.getHitBox(), hitBox))) {
                     System.out.println("hit");
                     getClosest().health -= 20;
-                    h.getHarpoons().get(h.getHarpoons().size()-1).setX(999999);
-                    h.getHarpoons().get(h.getHarpoons().size()-1).setY(999999);
+                    for (int v=0;v<=h.getHarpoons().size()-1;v++) {
+                        h.getHarpoons().get(v).setX(999999);
+                        h.getHarpoons().get(v).setY(999999);
+                    }
                     if (getClosest() != null && getClosest().health <= 0) {
                         PlayScreen.dinero += 10 * (PlayScreen.level);
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {

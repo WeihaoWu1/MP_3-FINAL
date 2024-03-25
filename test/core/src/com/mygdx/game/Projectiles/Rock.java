@@ -24,15 +24,16 @@ public class Rock {
         initialY = y;
     }
     public void create(){
-        rock = new Sprite(rockicon);
-        hitBox = rock.getBoundingRectangle();
+//        rock = new Sprite(rockicon);
+//        hitBox = rock.getBoundingRectangle();
+        hitBox = new Rectangle(initialX, initialY, 5,7);
         hitBox.setX(initialX);
         hitBox.setY(initialY);
     }
 
     public void render(RockTower r){
         if (getClosest() != null && Intersector.overlaps(r.getHitBox(), getClosest().getHitBox()))
-            gdxGame.batch.draw(rock, hitBox.x, hitBox.y);
+            gdxGame.batch.draw(rockicon, hitBox.x, hitBox.y);
     }
     public Minotaur getClosest(){
         for (Minotaur s : PlayScreen.minotaurs){
@@ -61,6 +62,10 @@ public class Rock {
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(r.getHitBox(), hitBox))) {
                     System.out.println("hit");
                     getClosest().health -= 20;
+                    for (int v=0;v<=r.getRocks().size()-1;v++) {
+                        r.getRocks().get(v).setX(999999);
+                        r.getRocks().get(v).setY(999999);
+                    }
                     if (getClosest().health <= 0) {
                         PlayScreen.dinero += 10 * (PlayScreen.level);
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {

@@ -32,15 +32,15 @@ public class Arrow {
     }
 
     public void create() {
-        arrow = new Sprite(arrowicon);
-        hitBox = arrow.getBoundingRectangle();
+//        arrow = new Sprite(arrowicon);
+        hitBox = new Rectangle(initialX, initialY, 5,7);
         hitBox.setX(initialX);
         hitBox.setY(initialY);
     }
 
     public void render(ArrowTower a) {
         if (getClosest() != null && Intersector.overlaps(a.getHitBox(), getClosest().getHitBox()))
-            gdxGame.batch.draw(arrow, hitBox.x, hitBox.y);
+            gdxGame.batch.draw(arrowicon, hitBox.x, hitBox.y);
     }
 
     public Minotaur getClosest() {
@@ -65,8 +65,10 @@ public class Arrow {
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(a.getHitBox(), hitBox))) {
                     System.out.println("hit");
                     getClosest().health -= 20;
-                    a.getArrows().get(a.getArrows().size()-1).setX(999999);
-                    a.getArrows().get(a.getArrows().size()-1).setY(999999);
+                    for (int v=0;v<=a.getArrows().size()-1;v++) {
+                        a.getArrows().get(v).setX(999999);
+                        a.getArrows().get(v).setY(999999);
+                    }
                     if (getClosest() != null && getClosest().health <= 0) {
                         PlayScreen.dinero += 10 * (PlayScreen.level);
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {
