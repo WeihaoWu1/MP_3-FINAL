@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.Enemies.Minotaur;
 import com.mygdx.game.Screens.PlayScreen;
+import com.mygdx.game.Towers.BetaTower;
 import com.mygdx.game.gdxGame;
 
 public class BetaStrike {

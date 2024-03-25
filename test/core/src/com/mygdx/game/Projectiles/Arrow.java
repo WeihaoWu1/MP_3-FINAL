@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.Enemies.Minotaur;
 import com.mygdx.game.Screens.PlayScreen;
+import com.mygdx.game.Towers.ArrowTower;
 import com.mygdx.game.gdxGame;
 
 public class Arrow {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.Enemies.Minotaur;
 import com.mygdx.game.Screens.PlayScreen;
+import com.mygdx.game.Towers.FireTower;
 import com.mygdx.game.gdxGame;
 import com.badlogic.gdx.math.Rectangle;
 

@@ -72,7 +72,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     public static int level = 1;
-//    public BitmapFont font = new BitmapFont();
+    //    public BitmapFont font = new BitmapFont();
     private  FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/04B_03__.TTF"));
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
@@ -211,6 +211,7 @@ public class PlayScreen implements Screen, InputProcessor {
                 g.intersects(f);
             }
         }
+
         for (RockTower r : rocktowers) {
             r.render();
             r.spawnProjectile();
@@ -265,8 +266,8 @@ public class PlayScreen implements Screen, InputProcessor {
                 b.getClosest();
                 b.shoot(a);
                 b.intersects(a);
-                }
             }
+        }
         if (isDraggingFire) selectedFireTower.render();
         if (isDraggingRock) selectedRockTower.render();
         if (isDraggingHarpoon) selectedHarpoonTower.render();

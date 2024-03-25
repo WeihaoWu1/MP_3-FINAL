@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.mygdx.game.Towers.FireTower;
+import com.mygdx.game.Towers.RockTower;
 
 public class gdxGame extends Game implements Runnable{
 	public static SpriteBatch batch;
