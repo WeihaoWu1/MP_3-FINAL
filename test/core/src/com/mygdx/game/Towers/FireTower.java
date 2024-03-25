@@ -31,7 +31,7 @@ public class FireTower extends TowerHitbox {
 
 
     public FireTower(float x, float y, float radius){
-        super(x,y,radius);
+        super(x +40,y+40,radius);
         initializeHitBox(x,y,radius);
     }
 
@@ -42,7 +42,7 @@ public class FireTower extends TowerHitbox {
     public void spawnProjectile() {
         for (Minotaur s : PlayScreen.minotaurs) {
             if (Intersector.overlaps(hitBox, s.getHitBox())){
-                Fire fire = new Fire((float) this.getX()-180 , (float) this.getY(), 100, 100);
+                Fire fire = new Fire((float) this.getX()-40 , (float) this.getY()-40, 100, 100);
                 fires.add(fire);
                 fire.create();
 //                s.health -= 20;
@@ -122,7 +122,7 @@ public class FireTower extends TowerHitbox {
     public void render() {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-        gdxGame.batch.draw(currentFrame, hitBox.x-175, hitBox.y-80);
+        gdxGame.batch.draw(currentFrame, hitBox.x-80, hitBox.y-80);
 //        hitBox.setFrame(100.0d, 100.0d, 80.0d, 120.0d);
 //        gdxGame.batch.draw(hitBox);
     }

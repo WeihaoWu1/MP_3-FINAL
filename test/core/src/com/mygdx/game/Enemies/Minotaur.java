@@ -69,7 +69,7 @@ public class Minotaur {
 
     public void create() {
         slime = new Sprite(walkSheet);
-        hitBox = new Rectangle(x,y,30, 30);
+        hitBox = new Rectangle(x,y,10, 20);
         hitBox.setX(x);
         hitBox.setY(y);
 
@@ -268,7 +268,8 @@ public class Minotaur {
                 hitBox.x--;
             }
             if (rand <= 3 && hitBox.x == 827&&hitBox.y==291){
-                stopFlip = false;
+//                stopFlip = false;
+//                hitBox.x = (hitBox.x+hitBox.width)*-1;
             }
             if (rand <= 3 && hitBox.x <= 728 && hitBox.y >= 181 && hitBox.x >= 624 && hitBox.y <= 291) {
                 hitBox.y -= 1f;
@@ -279,7 +280,7 @@ public class Minotaur {
                 hitBox.y -= 1f;
 
             }
-            hitBox = new Rectangle(hitBox.x, hitBox.y, 30, 30);
+            hitBox = new Rectangle(hitBox.x, hitBox.y, 10, 20);
 //        }
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 hitBox.x -= 1;
@@ -299,7 +300,7 @@ public class Minotaur {
             }
         }
         gdxGame.batch.draw(currentFrame, hitBox.x, hitBox.y);
-        hitBox = new Rectangle(hitBox.x,hitBox.y,30, 30);
+        hitBox = new Rectangle(hitBox.x,hitBox.y,10, 20);
     }
 
 
@@ -334,13 +335,13 @@ public class Minotaur {
     }
     public void setX(float x){
         hitBox.x = x;
-        hitBox = new Rectangle(hitBox.x,hitBox.y,300, 300);
+//        hitBox = new Rectangle(hitBox.x,hitBox.y,10, 20);
 
     }
 
     public void setY(float y){
         hitBox.y = y;
-        hitBox = new Rectangle(hitBox.x,hitBox.y,300, 300);
+//        hitBox = new Rectangle(hitBox.x,hitBox.y,10, 20);
     }
 
     public float getX(){

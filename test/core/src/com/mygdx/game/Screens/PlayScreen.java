@@ -4,11 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Enemies.Minotaur;
 import com.mygdx.game.Projectiles.Arrow;
 import com.mygdx.game.Projectiles.Fire;
@@ -24,6 +28,7 @@ import java.util.ArrayList;
 
 public class PlayScreen implements Screen, InputProcessor {
     private gdxGame game;
+    private OrthographicCamera camera;
     private Texture fireTowerButton = new Texture("firetowericon.png");
     private Texture rockTowerButton = new Texture("rocktowericon.png");
     private Texture arrowTowerButton = new Texture("archertowericon.png");
@@ -72,11 +77,26 @@ public class PlayScreen implements Screen, InputProcessor {
     public static int dinero = 100;
     private String displayDinero = "$ " + dinero;
     public static int mapNum;
+    private int originalScreenWidth = 1760;
+    private int originalScreenHeight = 1080;
 
+    public static float xScaleFactor;
+    public static float yScaleFactor;
+    private StretchViewport viewport;
+
+    private float xScale;
+    private float yScale;
 
     public PlayScreen(gdxGame game, int mapNum) {
         this.game = game;
         this.mapNum = mapNum;
+        camera = new OrthographicCamera();
+        viewport = new StretchViewport(originalScreenWidth, originalScreenHeight, camera);
+        camera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
+        camera.update();
+//        originalScreenWidth = Gdx.graphics.getWidth();
+//        originalScreenHeight = Gdx.graphics.getHeight();
+//        camera.setToOrtho(false, camera.viewportWidth/2, camera.viewportHeight/2);
     }
 
 
@@ -90,6 +110,8 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public void show() {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.RED);
         parameter.size = 20;
         if (mapNum == 1){
             map = new Texture("map3.png");
@@ -123,6 +145,8 @@ public class PlayScreen implements Screen, InputProcessor {
         for (Minotaur s : minotaurs) {
             s.create();
             System.out.println(s);
+//            shapeRenderer.rect(s.getX(), s.getY(), 10,20);
+
         }
 //        firetowers.add(new FireTowerAnimation(0, 0, 50, 50));
 //        rocktowers.add(new RockTowerAnimation(200, 200, 50, 50));
@@ -132,7 +156,8 @@ public class PlayScreen implements Screen, InputProcessor {
         selectedRockTower.create();
         selectedHarpoonTower.create();
         selectedArrowTower.create();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.rect(f.getX(), f.getY(), f.getRadius());
+
     }
 
     @Override
@@ -141,27 +166,31 @@ public class PlayScreen implements Screen, InputProcessor {
         displayDinero = "$ " + dinero;
         Gdx.input.setInputProcessor(this);
         ScreenUtils.clear(1, 1, 1, 1);
+//        viewport.apply();
+//        gdxGame.batch.setProjectionMatrix(camera.combined);
         gdxGame.batch.begin();
         shapeRenderer.setColor(Color.BLUE);
 //        shapeRenderer.begin();
         slimeCount=0;
-        gdxGame.batch.draw(map, 0, 120, 1760, 960);
+        gdxGame.batch.draw(map, 0, 110, 1760, 980);
         font.getData().setScale(5f);
         font.setColor(Color.BLACK);
         font.draw(gdxGame.batch, displayLevel, 1450, 1050);
         font.draw(gdxGame.batch, displayDinero, 0, 1050);
-        gdxGame.batch.draw(fireTowerButton, 0, 0, 80,120);
-        gdxGame.batch.draw(rockTowerButton, 80, 0, 80,120);
-        gdxGame.batch.draw(harpoonTowerButton, 160, 0, 80,120);
-        gdxGame.batch.draw(arrowTowerButton, 240, 0, 80, 120);
+        gdxGame.batch.draw(fireTowerButton, 0*xScale, 0*yScale, 80*xScale,120*yScale);
+        gdxGame.batch.draw(rockTowerButton, 80*xScale, 0*yScale, 80*xScale,120*yScale);
+        gdxGame.batch.draw(harpoonTowerButton, 160*xScale, 0*yScale, 80*xScale,120*yScale);
+        gdxGame.batch.draw(arrowTowerButton, 240*xScale, 0*yScale, 80*xScale, 120*yScale);
         for (Minotaur s : minotaurs) {
             s.render();
+            System.out.println(s);
+            shapeRenderer.rect(s.getX(), s.getY(), 10,20);
+
         }
         for (FireTower f : firetowers) {
             f.render();
             f.spawnProjectile();
             shapeRenderer.circle(f.getX(), f.getY(), f.getRadius());
-
             for (Fire g : f.getFires()){
                 g.render(f);
                 g.getClosest();
@@ -219,7 +248,9 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height);
+        xScale = (float) width /originalScreenWidth;
+        yScale = (float) height /originalScreenHeight;
     }
 
     @Override
@@ -285,19 +316,19 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (screenX > 0 && screenX < 80 && 1080-screenY-80 > 0 && 1080-screenY-80 < 120){
+        if (screenX > 0 *xScale && screenX < 80*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY-80 < 120*yScale){
             currentlyFireTower = true;
             return true;
         }
-        else if (screenX > 80 && screenX < 160 && 1080-screenY-80 > 0 && 1080-screenY-80 < 120){
+        else if (screenX > 80*xScale && screenX < 160*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY-80 < 120*yScale){
             currentlyRockTower = true;
             return true;
         }
-        else if (screenX > 160 && screenX < 240 && 1080-screenY-80 > 0 && 1080-screenY-80 < 120){
+        else if (screenX > 160*xScale && screenX < 240*xScale && 1080-screenY-80 > 0 *yScale&& 1080-screenY-80 < 120*yScale){
             currentlyHarpoonTower = true;
             return true;
         }
-        else if (screenX > 240 && screenX < 320 && 1080-screenY-80 > 0 && 1080-screenY -80< 120){
+        else if (screenX > 240 *xScale && screenX < 320*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY -80< 120*yScale){
             currentlyArrowTower = true;
             return true;
         }
@@ -309,7 +340,7 @@ public class PlayScreen implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (currentlyFireTower && selectedFireTower.checkBox()) {
             dinero -= 80;
-            firetowers.add(new FireTower(screenX, 1080 - screenY-80, 300));
+            firetowers.add(new FireTower(screenX, 1080 - screenY, 300));
             firetowers.get(fireTowerIndex).create();
             fireTowerIndex++;
             selectedFireTower = new FireTower(0, 0, 80);
@@ -385,7 +416,7 @@ public class PlayScreen implements Screen, InputProcessor {
         if (currentlyFireTower) {
             isDraggingFire = true;
             selectedFireTower.setX(Gdx.input.getX());
-            selectedFireTower.setY(1080 - Gdx.input.getY()-80);
+            selectedFireTower.setY(1080 - Gdx.input.getY());
             return true;
         }
         else if (currentlyRockTower){

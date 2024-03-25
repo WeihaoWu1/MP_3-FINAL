@@ -33,15 +33,38 @@ public class Fire {
     }
 
     public void create() {
-        fire = new Sprite(fireicon);
-        hitBox = fire.getBoundingRectangle();
+//        fire = new Sprite(fireicon);
+//        hitBox = fire.getBoundingRectangle();
+        hitBox = new Rectangle(initialX, initialY, 5,7);
         hitBox.setX(initialX);
         hitBox.setY(initialY);
     }
 
     public void render(FireTower f) {
-        if (getClosest() != null && Intersector.overlaps(f.getHitBox(), getClosest().getHitBox()))
-            gdxGame.batch.draw(fire, hitBox.x, hitBox.y);
+        if (getClosest() != null && Intersector.overlaps(f.getHitBox(), getClosest().getHitBox())) {
+            if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() > f.getY()){
+                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,0,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+            }
+            if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() < f.getY()){
+                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,180,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+            }
+            if (shortestMinotaur.getX() <= f.getX() && shortestMinotaur.getY() > f.getY()) {
+                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,45,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+            }
+            if (shortestMinotaur.getX() > initialX && shortestMinotaur.getY() > initialY) {
+                //                System.out.println("GAy1");
+                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,-45,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+            }
+            if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() < initialY) {
+                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,135,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+
+            }
+            if (shortestMinotaur.getX() >= initialX && shortestMinotaur.getY() <= initialY) {
+                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,-135,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+
+            }
+        }
+            gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y);
     }
 
     public Minotaur getClosest() {
@@ -64,10 +87,17 @@ public class Fire {
             if (PlayScreen.minotaurs.get(i) == (getClosest())) {
 //                System.out.println("affs");
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(f.getHitBox(), hitBox))) {
-                    System.out.println("hit");
+//                    System.out.println("hit");
                     getClosest().health -= 20;
-                    f.getFires().get(f.getFires().size()-1).setX(999999);
-                    f.getFires().get(f.getFires().size()-1).setY(999999);
+                    for (int v=0;v<=f.getFires().size()-1;v++) {
+                        f.getFires().get(v).setX(999999);
+                        f.getFires().get(v).setY(999999);
+                    }
+                    System.out.println("gay");
+//                    f.getFires().get(f.getFires().size()-1).setX(99999999);
+//                    f.getFires().get(f.getFires().size()-1).setY(99999999);
+
+//                    f.getFires().remove(this);
                     if (getClosest() != null && getClosest().health <= 0) {
                         PlayScreen.dinero += 10 * (PlayScreen.level);
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {
@@ -84,6 +114,12 @@ public class Fire {
                     }
                 }
 
+            }
+        }
+        if (!Intersector.overlaps(f.getHitBox(), getClosest().getHitBox())){
+            for (int v=0;v<=f.getFires().size()-1;v++) {
+                f.getFires().get(v).setX(999999);
+                f.getFires().get(v).setY(999999);
             }
         }
     }
@@ -153,6 +189,7 @@ public class Fire {
                     count++;
                     hitBox.setX(hitBox.x);
                     hitBox.setY(hitBox.y);
+                    hitBox = new Rectangle(hitBox.x,hitBox.y,5, 7);
                 } else {
                     slimeDestroyedByOtherTower(f);
                 }

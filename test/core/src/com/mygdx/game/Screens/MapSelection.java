@@ -3,7 +3,9 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.gdxGame;
 
 import java.util.Map;
@@ -13,9 +15,17 @@ public class MapSelection implements Screen, InputProcessor {
     private gdxGame game;
 
     private int mapNum;
+    private OrthographicCamera camera;
+    private StretchViewport viewport;
+    private int originalScreenWidth = 1760;
+    private  int originalScreenHeight = 1080;
 
     public MapSelection(gdxGame game){
         this.game = game;
+        camera = new OrthographicCamera();
+        viewport = new StretchViewport(originalScreenWidth, originalScreenHeight, camera);
+        camera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
+        camera.update();
     }
     @Override
     public void show() {
@@ -37,7 +47,7 @@ public class MapSelection implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height);
     }
 
     @Override
