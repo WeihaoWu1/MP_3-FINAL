@@ -14,14 +14,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Enemies.Minotaur;
-import com.mygdx.game.Projectiles.Arrow;
-import com.mygdx.game.Projectiles.Fire;
-import com.mygdx.game.Projectiles.Harpoon;
-import com.mygdx.game.Projectiles.Rock;
-import com.mygdx.game.Towers.ArrowTower;
-import com.mygdx.game.Towers.FireTower;
-import com.mygdx.game.Towers.HarpoonTower;
-import com.mygdx.game.Towers.RockTower;
+import com.mygdx.game.Projectiles.*;
+import com.mygdx.game.Towers.*;
 import com.mygdx.game.gdxGame;
 
 import java.util.ArrayList;
@@ -33,36 +27,48 @@ public class PlayScreen implements Screen, InputProcessor {
     private Texture rockTowerButton = new Texture("rocktowericon.png");
     private Texture arrowTowerButton = new Texture("archertowericon.png");
     private Texture harpoonTowerButton = new Texture("harpoontowericon.png");
+    private Texture alphaTowerButton = new Texture("alphaTower.png");
+    private Texture betaTowerButton = new Texture("betaTower.png");
     Texture map = new Texture("map4.png");
 
     public static ArrayList<FireTower> firetowers = new ArrayList<FireTower>();
     public static ArrayList<RockTower> rocktowers = new ArrayList<RockTower>();
     public static ArrayList<ArrowTower> arrowtowers = new ArrayList<ArrowTower>();
     public static ArrayList<HarpoonTower> harpoontowers = new ArrayList<HarpoonTower>();
+    public static ArrayList<AlphaTower> alphatowers = new ArrayList<AlphaTower>();
+    public static ArrayList<BetaTower> betatowers = new ArrayList<BetaTower>();
     public static ArrayList<Minotaur> minotaurs = new ArrayList<Minotaur>();
 
     int slimeCount;
 
-    private FireTower selectedFireTower = new FireTower(0, 0+100, 80);
-    private RockTower selectedRockTower  = new RockTower(80,0+100,80);
-    private HarpoonTower selectedHarpoonTower  = new HarpoonTower(160,0+100,80);
-    private ArrowTower selectedArrowTower  = new ArrowTower(240,0+100,80);
+    private FireTower selectedFireTower = new FireTower(0, 100, 80);
+    private RockTower selectedRockTower  = new RockTower(80, 100,80);
+    private HarpoonTower selectedHarpoonTower  = new HarpoonTower(160, 100,80);
+    private ArrowTower selectedArrowTower  = new ArrowTower(240, 100,80);
+    private AlphaTower selectedAlphaTower = new AlphaTower(320, 100, 80);
+    private BetaTower selectedBetaTower = new BetaTower(320, 100, 80);
 
 
     private int fireTowerIndex;
     private int rockTowerIndex;
     private int harpoonTowerIndex;
     private int arrowTowerIndex;
+    private int alphaTowerIndex;
+    private int betaTowerIndex;
 
     private boolean isDraggingFire;
     private boolean isDraggingRock;
     private boolean isDraggingHarpoon;
     private boolean isDraggingArrow;
+    private boolean isDraggingAlpha;
+    private boolean isDraggingBeta;
 
     private boolean currentlyFireTower;
     private boolean currentlyRockTower;
     private boolean currentlyHarpoonTower;
     private boolean currentlyArrowTower;
+    private boolean currentlyAlphaTower;
+    private boolean currentlyBetaTower;
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     public static int level = 1;
@@ -86,6 +92,8 @@ public class PlayScreen implements Screen, InputProcessor {
 
     private float xScale;
     private float yScale;
+    public static int health = 100;
+    private String displayHealth = "Health: " + health;
 
     public PlayScreen(gdxGame game, int mapNum) {
         this.game = game;
@@ -156,6 +164,8 @@ public class PlayScreen implements Screen, InputProcessor {
         selectedRockTower.create();
         selectedHarpoonTower.create();
         selectedArrowTower.create();
+        selectedAlphaTower.create();
+        selectedBetaTower.create();
 //        shapeRenderer.rect(f.getX(), f.getY(), f.getRadius());
 
     }
@@ -177,14 +187,17 @@ public class PlayScreen implements Screen, InputProcessor {
         font.setColor(Color.BLACK);
         font.draw(gdxGame.batch, displayLevel, 1450, 1050);
         font.draw(gdxGame.batch, displayDinero, 0, 1050);
+        font.draw(gdxGame.batch, displayHealth, 0, 900);
         gdxGame.batch.draw(fireTowerButton, 0*xScale, 0*yScale, 80*xScale,120*yScale);
         gdxGame.batch.draw(rockTowerButton, 80*xScale, 0*yScale, 80*xScale,120*yScale);
         gdxGame.batch.draw(harpoonTowerButton, 160*xScale, 0*yScale, 80*xScale,120*yScale);
         gdxGame.batch.draw(arrowTowerButton, 240*xScale, 0*yScale, 80*xScale, 120*yScale);
+        gdxGame.batch.draw(alphaTowerButton, 320*xScale, 0 * yScale, 80*xScale, 120*yScale);
+        gdxGame.batch.draw(betaTowerButton,400*xScale, 0 * yScale, 80*xScale, 120*yScale);
         for (Minotaur s : minotaurs) {
             s.render();
             System.out.println(s);
-            shapeRenderer.rect(s.getX(), s.getY(), 10,20);
+            shapeRenderer.rect(s.getX(), s.getY(), 10,10);
 
         }
         for (FireTower f : firetowers) {
@@ -232,11 +245,34 @@ public class PlayScreen implements Screen, InputProcessor {
                 b.intersects(a);
             }
         }
+        for (AlphaTower a : alphatowers){
+            a.render();
+            a.spawnProjectile();
+            for (AlphaStrike b : a.getAlphaStrikes()){
+                b.render(a);
+                b.getClosest();
+                b.shoot(a);
+                b.intersects(a);
+            }
+        }
 
+        for (BetaTower a : betatowers) {
+            a.render();
+            a.spawnProjectile();
+//           shapeRenderer.circle(r.getX(), r.getY(), r.getRadius());
+            for (BetaStrike b : a.getBetaStrikes()) {
+                b.render(a);
+                b.getClosest();
+                b.shoot(a);
+                b.intersects(a);
+                }
+            }
         if (isDraggingFire) selectedFireTower.render();
         if (isDraggingRock) selectedRockTower.render();
         if (isDraggingHarpoon) selectedHarpoonTower.render();
-        if (isDraggingArrow) selectedArrowTower.render();
+        if (isDraggingAlpha) selectedAlphaTower.render();
+        if (isDraggingBeta) selectedBetaTower.render();
+
         if (minotaurs.size() == 0) {
             level++;
             displayLevel = "Level: " + level;
@@ -293,6 +329,10 @@ public class PlayScreen implements Screen, InputProcessor {
         font.dispose();
         rockTowerButton.dispose();
         fireTowerButton.dispose();
+        harpoonTowerButton.dispose();
+        arrowTowerButton.dispose();
+        alphaTowerButton.dispose();
+        betaTowerButton.dispose();
         generator.dispose();
 
     }
@@ -353,6 +393,8 @@ public class PlayScreen implements Screen, InputProcessor {
             selectedFireTower.setX(9999999);
             selectedFireTower.setY(99999999);
         }
+        isDraggingFire = false;
+        currentlyFireTower = false;
         if (currentlyRockTower && selectedRockTower.checkBox()) {
             dinero -= 100;
             rocktowers.add(new RockTower(screenX, 1080 - screenY-80, 150));
@@ -369,12 +411,15 @@ public class PlayScreen implements Screen, InputProcessor {
             selectedRockTower.setX(99999999);
             selectedRockTower.setY(99999999);
         }
+        isDraggingRock = false;
+        currentlyRockTower = false;
+
         if (currentlyHarpoonTower && selectedHarpoonTower.checkBox()) {
             dinero -= 100;
             harpoontowers.add(new HarpoonTower(screenX, 1080 - screenY-80, 150));
             harpoontowers.get(harpoonTowerIndex).create();
             harpoonTowerIndex++;
-            selectedHarpoonTower = new HarpoonTower(80, 0, 80);
+            selectedHarpoonTower = new HarpoonTower(160, 0, 80);
             selectedHarpoonTower.create();
             isDraggingHarpoon = false;
             currentlyHarpoonTower = false;
@@ -398,8 +443,8 @@ public class PlayScreen implements Screen, InputProcessor {
             return true;
         }
         else{
-            selectedArrowTower.setX(99999999);
-            selectedArrowTower.setY(99999999);
+            selectedBetaTower.setX(99999999);
+            selectedBetaTower.setY(99999999);
         }
         System.out.println("x:"+screenX+"y"+screenY);
         return false;
@@ -435,6 +480,16 @@ public class PlayScreen implements Screen, InputProcessor {
             isDraggingArrow = true;
             selectedArrowTower.setX(screenX);
             selectedArrowTower.setY(1080-screenY-80);
+        }
+        else if (currentlyAlphaTower){
+            isDraggingAlpha = true;
+            selectedAlphaTower.setX(screenX);
+            selectedAlphaTower.setY(1080-screenY-80);
+        }
+        else if (currentlyBetaTower){
+            isDraggingBeta = true;
+            selectedBetaTower.setX(screenX);
+            selectedBetaTower.setY(1080-screenY-80);
         }
         return false;
     }

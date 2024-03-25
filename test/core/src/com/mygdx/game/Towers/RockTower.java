@@ -36,7 +36,8 @@ public class RockTower extends TowerHitbox {
     public void spawnProjectile() {
         for (Minotaur s : PlayScreen.minotaurs) {
             if (Intersector.overlaps(hitBox, s.getHitBox())) {
-                Rock rock = new Rock((float) this.getX()-40 , (float) this.getY()-40 , 100, 100);rocks.add(rock);
+                Rock rock = new Rock((float) this.getX()-40 , (float) this.getY()-40 , 100, 100);
+                rocks.add(rock);
                 rock.create();
             }
         }

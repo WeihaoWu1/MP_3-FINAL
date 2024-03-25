@@ -113,7 +113,6 @@ public class Rock {
                 xIncrement = realDist * (ratiox / 10);
                 yIncrement = realDist * (ratioy / 10);
                 if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() > initialY) {
-
                     hitBox.x -= xIncrement;
                     hitBox.y += yIncrement;
                 }

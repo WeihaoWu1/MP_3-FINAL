@@ -134,7 +134,7 @@ public class Arrow {
                 xIncrement = realDist * (ratiox / 10);
                 yIncrement = realDist * (ratioy / 10);
                 if (Intersector.overlaps(a.getHitBox(), hitBox)) {
-                    if (shortestMinotaur.getX() <= a.getX() && shortestMinotaur.getY() > a.getY()) {
+                    if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() > initialY) {
                         hitBox.x -= xIncrement;
                         hitBox.y += yIncrement;
                     }
@@ -147,7 +147,7 @@ public class Arrow {
                         hitBox.x -= xIncrement;
                         hitBox.y -= yIncrement;
                     }
-                    if (shortestMinotaur.getX() >= initialX && shortestMinotaur.getY() <= initialY) {
+                    if (shortestMinotaur.getX() > initialX && shortestMinotaur.getY() < initialY) {
                         hitBox.x += xIncrement;
                         hitBox.y -= yIncrement;
                     }

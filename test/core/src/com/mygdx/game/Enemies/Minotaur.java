@@ -69,7 +69,7 @@ public class Minotaur {
 
     public void create() {
         slime = new Sprite(walkSheet);
-        hitBox = new Rectangle(x,y,10, 20);
+        hitBox = new Rectangle(x,y,10, 10);
         hitBox.setX(x);
         hitBox.setY(y);
 
@@ -232,7 +232,7 @@ public class Minotaur {
 
 //                stopFlip=false;
 //                hitBox.x = (hitBox.x+hitBox.width)*-1;
-                hitBox.x+=10;
+//                hitBox.x+=10;
             }
             if (hitBox.x == 525 && hitBox.y > 635) {
                 hitBox.y -= 1f;
@@ -303,7 +303,7 @@ public class Minotaur {
             }
         }
         gdxGame.batch.draw(currentFrame, hitBox.x, hitBox.y);
-        hitBox = new Rectangle(hitBox.x,hitBox.y,10, 20);
+//        hitBox = new Rectangle(hitBox.x,hitBox.y,10, 10);
     }
 
 

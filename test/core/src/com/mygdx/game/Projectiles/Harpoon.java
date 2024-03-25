@@ -60,18 +60,17 @@ public class Harpoon {
         return shortestMinotaur;
     }
 
-    public  void intersects(HarpoonTower h) {
+    public  void intersects(HarpoonTower r) {
         for (int i = PlayScreen.minotaurs.size() - 1; i >= 0; i--) {
             if (PlayScreen.minotaurs.get(i) == (getClosest())) {
-//                System.out.println("affs");
-                if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(h.getHitBox(), hitBox))) {
+                if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(r.getHitBox(), hitBox))) {
                     System.out.println("hit");
                     getClosest().health -= 20;
-                    for (int v=0;v<=h.getHarpoons().size()-1;v++) {
-                        h.getHarpoons().get(v).setX(999999);
-                        h.getHarpoons().get(v).setY(999999);
+                    for (int v=0;v<=r.getHarpoons().size()-1;v++) {
+                        r.getHarpoons().get(v).setX(999999);
+                        r.getHarpoons().get(v).setY(999999);
                     }
-                    if (getClosest() != null && getClosest().health <= 0) {
+                    if (getClosest().health <= 0) {
                         PlayScreen.dinero += 10 * (PlayScreen.level);
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {
 //                            for (Slime s : PlayScreen.slimes) {
@@ -79,7 +78,7 @@ public class Harpoon {
                                 PlayScreen.minotaurs.get(j).setX(-99999999f);
                                 System.out.println("slime died");
                                 PlayScreen.minotaurs.get(j).setY(-99999999f);
-                                slimeDestroyedByOtherTower(h);
+                                slimeDestroyedByOtherTower(r);
                                 PlayScreen.minotaurs.remove(j);
                                 getClosest();
                             }
@@ -136,7 +135,7 @@ public class Harpoon {
                 xIncrement = realDist * (ratiox / 10);
                 yIncrement = realDist * (ratioy / 10);
                 if (Intersector.overlaps(h.getHitBox(), hitBox)) {
-                    if (shortestMinotaur.getX() <= h.getX() && shortestMinotaur.getY() > h.getY()) {
+                    if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() > initialY) {
                         hitBox.x -= xIncrement;
                         hitBox.y += yIncrement;
                     }
@@ -149,16 +148,17 @@ public class Harpoon {
                         hitBox.x -= xIncrement;
                         hitBox.y -= yIncrement;
                     }
-                    if (shortestMinotaur.getX() >= initialX && shortestMinotaur.getY() <= initialY) {
+                    if (shortestMinotaur.getX() > initialX && shortestMinotaur.getY() < initialY) {
                         hitBox.x += xIncrement;
                         hitBox.y -= yIncrement;
                     }
-                    count++;
-                    hitBox.setX(hitBox.x);
-                    hitBox.setY(hitBox.y);
-                } else {
-                    slimeDestroyedByOtherTower(h);
+//                    count++;
+//                    hitBox.setX(hitBox.x);
+//                    hitBox.setY(hitBox.y);
                 }
+//                else {
+//                    slimeDestroyedByOtherTower(h);
+//                }
             }
         }
     }
