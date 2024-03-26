@@ -29,6 +29,8 @@ public class FireTower extends TowerHitBox {
 
     private float increment;
 
+    public static int cost = 60;
+
 
     public FireTower(float x, float y, float radius){
         super(x +40,y+40,radius);
