@@ -75,9 +75,9 @@ public class PlayScreen implements Screen, InputProcessor {
     private boolean currentlyBetaTower;
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
-    public static int level = 15;
+    public static int level = 1;
     //    public BitmapFont font = new BitmapFont();
-    private  FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/04B_03__.TTF"));
+    private  FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/CandyCloud-yYYBY.ttf"));
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 
@@ -122,22 +122,21 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public void show() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.RED);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        shapeRenderer.setColor(Color.RED);
         parameter.size = 20;
-        if (level==15){
-            gdxGame.backgroundMusic.pause();
+        if (level==2){
             gdxGame.assetManager.load("bossMusic.mp3", Music.class);
             gdxGame.assetManager.finishLoading();
+            gdxGame.backgroundMusic.pause();
             gdxGame.backgroundMusic = gdxGame.assetManager.get("bossMusic.mp3", Music.class);
             gdxGame.backgroundMusic.setLooping(true);
-            game.setScreen(new PlayScreen(game, mapNum));
             gdxGame.backgroundMusic.setVolume(0.07f);
             gdxGame.backgroundMusic.play();
         }
         if (mapNum == 1){
             map = new Texture("map3.png");
-            if (level <15) {
+            if (level <10) {
                 int x = -55;
 //                int slimeX = -246;
                 for (int i = 0; i < level * 1.5; i++) {
@@ -147,10 +146,10 @@ public class PlayScreen implements Screen, InputProcessor {
                     slimeCount++;
                 }
             }
-            if (level >= 15){
+            if (level >= 10){
                 int slimeX = -246;
-                for (int i = 0; i < level/5;i++){
-                    minotaurs.add(new Minotaur(slimeX, 222));
+                for (int i = 0; i < level;i++){
+                    minotaurs.add(new Minotaur(slimeX, 222+40));
                     slimeX-=180;
                 }
             }
@@ -159,19 +158,20 @@ public class PlayScreen implements Screen, InputProcessor {
             map = new Texture("map4.png");
             int x = 1650;
 
-            if (level <15) {
-                for (int i = 0; i < level * 1.5; i++) {
-                    minotaurs.add(new Minotaur(x, 835));
+            if (level <10) {
+                for (int i = 0; i < level * 1.5; i++){
+                   minotaurs.add(new Minotaur(x, 835));
 //                slimes.add(new Slime(x,770));
                     x += 180;
                     slimeCount++;
                 }
             }
-            if (level >= 15){
-                int slimeX = -246;
-                for (int i = 0; i < level/5;i++){
-                    minotaurs.add(new Minotaur(slimeX, 222));
-                    slimeX-=180;
+            if (level >= 10){
+                int slimeX = 1950;
+                for (int i = 0; i < level;i++){
+                    minotaurs.add(new Minotaur(slimeX, 810)); //+40
+                    slimeX-=300;
+                    slimeCount++;
                 }
             }
         }
@@ -188,7 +188,7 @@ public class PlayScreen implements Screen, InputProcessor {
 //        }
         for (Minotaur s : minotaurs) {
             s.create();
-            System.out.println(s);
+
 //            shapeRenderer.rect(s.getX(), s.getY(), 10,20);
         }
 //        if (level > 15) {
@@ -224,10 +224,11 @@ public class PlayScreen implements Screen, InputProcessor {
         slimeCount=0;
         gdxGame.batch.draw(map, 0, 110, 1760, 980);
         font.getData().setScale(5f);
-        font.setColor(Color.BLACK);
-        font.draw(gdxGame.batch, displayLevel, 1450, 1050);
+        if (mapNum==1) font.setColor(Color.PINK);
+        if (mapNum==2) font.setColor(Color.YELLOW);
+        font.draw(gdxGame.batch, displayLevel, 1400, 1050);
         font.draw(gdxGame.batch, displayDinero, 0, 1050);
-        font.draw(gdxGame.batch, displayHealth, 0, 900);
+        font.draw(gdxGame.batch, displayHealth, 0, 970);
         gdxGame.batch.draw(fireTowerButton, 0*xScale, 0*yScale, 80*xScale,120*yScale);
         gdxGame.batch.draw(rockTowerButton, 80*xScale, 0*yScale, 80*xScale,120*yScale);
         gdxGame.batch.draw(harpoonTowerButton, 160*xScale, 0*yScale, 80*xScale,120*yScale);
@@ -316,9 +317,10 @@ public class PlayScreen implements Screen, InputProcessor {
         if (isDraggingBeta) selectedBetaTower.render();
 
         if (minotaurs.size() == 0) {
+            System.out.println("level increase");
             level++;
             displayLevel = "Level: " + level;
-            shapeRenderer.end();
+//            shapeRenderer.end();
             show();
         }
 //            for (Slime s : slimes) {
