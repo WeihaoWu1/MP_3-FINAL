@@ -20,6 +20,8 @@ public class BetaTower extends TowerHitBox{
     // A variable for tracking elapsed time for the animation
     private ArrayList<BetaStrike> betaStrikes  = new ArrayList<BetaStrike>();
 
+    public static int cost = 80;
+
 
     public BetaTower(float x, float y, float radius){
         super(x,y,radius);
