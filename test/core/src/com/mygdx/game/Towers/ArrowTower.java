@@ -29,6 +29,8 @@ public class ArrowTower extends TowerHitBox{
 
     private float increment;
 
+    public static int cost = 50;
+
 
     public ArrowTower(float x, float y, float radius){
         super(x+80,y+40,radius);
