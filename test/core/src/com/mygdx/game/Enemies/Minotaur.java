@@ -500,6 +500,18 @@ public class Minotaur {
                 if (rand <= 3 && hitBox.x == 560+50 && hitBox.y > 100) {
                     hitBox.y -= 2f;
                 }
+                if(rand>3 && hitBox.x + 50 >=1920){
+                    System.out.println("jajaaj");
+                    PlayScreen.health-=10;
+                }
+                if (rand <= 3 &&  hitBox.y +40 > 1017) {
+                    System.out.println("ooga booga");
+                    PlayScreen.minotaurs.remove(this);
+                    PlayScreen.minotaurs.remove(this);
+//                    hitBox.y -= 999999999999f;
+//                    hitBox.x -= 999999999999f;
+                    PlayScreen.health-=10;
+                }
             }
         hitBox = new Rectangle(hitBox.x, hitBox.y, 10, 10);
         gdxGame.batch.draw(currentFrame, hitBox.x-50, hitBox.y-40);
