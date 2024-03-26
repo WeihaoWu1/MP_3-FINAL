@@ -2,6 +2,7 @@ package com.mygdx.game.Projectiles;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.Enemies.Minotaur;
@@ -16,7 +17,8 @@ public class AlphaStrike {
     long lastAttack = 0;
     long coolDownTime = 1000;
     private float shortest = Float.MAX_VALUE;
-    Texture alphaicon = new Texture("alphaStrike.png");
+    Texture alphaTexture = new Texture("alphaStrike.png");
+    TextureRegion alphaicon = new TextureRegion(alphaTexture);
     Sprite alphaStrike;
     private Rectangle hitBox;
     public AlphaStrike(float x, float y, int width, int height) {
@@ -31,9 +33,32 @@ public class AlphaStrike {
         hitBox.setY(initialY);
     }
 
-    public void render(AlphaTower r){
-        if (getClosest() != null && Intersector.overlaps(r.getHitBox(), getClosest().getHitBox()))
-            gdxGame.batch.draw(alphaicon, hitBox.x, hitBox.y);
+    public void render(AlphaTower f){
+        if (getClosest() != null && Intersector.overlaps(f.getHitBox(), getClosest().getHitBox())) {
+            if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() > f.getY()){
+//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,0,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+            }
+            else if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() < f.getY()){
+//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,180,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+            }
+            else if (shortestMinotaur.getX() <= f.getX() && shortestMinotaur.getY() > f.getY()) {
+                gdxGame.batch.draw(alphaicon, hitBox.x, hitBox.y, (float) alphaTexture.getWidth()/2, (float) alphaTexture.getHeight()/2, alphaTexture.getWidth(), alphaTexture.getHeight(), 1,1,315,false);
+
+            }
+            else if (shortestMinotaur.getX() > initialX && shortestMinotaur.getY() > initialY) {
+                //                System.out.println("GAy1");
+//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.x+hitBox.width/2, hitBox.y + hitBox.height/2, hitBox.width, hitBox.height,1,1,-45,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(alphaicon, hitBox.x, hitBox.y, (float) alphaTexture.getWidth()/2, (float) alphaTexture.getHeight()/2, alphaTexture.getWidth(), alphaTexture.getHeight(), 1,1,225,false);
+            }
+            else if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() < initialY) {
+                gdxGame.batch.draw(alphaicon, hitBox.x, hitBox.y, (float) alphaTexture.getWidth()/2, (float) alphaTexture.getHeight()/2, alphaTexture.getWidth(), alphaTexture.getHeight(), 1,1,45,false);
+            }
+            else if (shortestMinotaur.getX() > initialX && shortestMinotaur.getY() < initialY) {
+                gdxGame.batch.draw(alphaicon, hitBox.x, hitBox.y, (float) alphaTexture.getWidth()/2, (float) alphaTexture.getHeight()/2, alphaTexture.getWidth(), alphaTexture.getHeight(), 1,1,135,false);
+            }
+//            gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y);
+            System.out.println("shooting");
+        }
     }
     public Minotaur getClosest(){
         for (Minotaur s : PlayScreen.minotaurs){

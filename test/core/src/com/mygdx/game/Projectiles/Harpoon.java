@@ -2,6 +2,7 @@ package com.mygdx.game.Projectiles;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -14,7 +15,8 @@ public class Harpoon {
     public Minotaur shortestMinotaur;
     private float initialX;
     private float initialY;
-    Texture harpoonicon = new Texture("harpoon.png");
+    Texture harpoonTexture = new Texture("harpoon.png");
+    TextureRegion harpoonicon = new TextureRegion(harpoonTexture);
     Sprite harpoon;
     private float shortest = Float.MAX_VALUE;
 
@@ -39,9 +41,32 @@ public class Harpoon {
         hitBox.setY(initialY);
     }
 
-    public void render(HarpoonTower h) {
-        if (getClosest() != null && Intersector.overlaps(h.getHitBox(), getClosest().getHitBox()))
-            gdxGame.batch.draw(harpoonicon, hitBox.x, hitBox.y);
+    public void render(HarpoonTower f) {
+        if (getClosest() != null && Intersector.overlaps(f.getHitBox(), getClosest().getHitBox())) {
+            if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() > f.getY()){
+//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,0,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+            }
+            else if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() < f.getY()){
+//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,180,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+            }
+            else if (shortestMinotaur.getX() <= f.getX() && shortestMinotaur.getY() > f.getY()) {
+                gdxGame.batch.draw(harpoonicon, hitBox.x, hitBox.y, (float) harpoonTexture.getWidth()/2, (float) harpoonTexture.getHeight()/2, harpoonTexture.getWidth(), harpoonTexture.getHeight(), 1,1,315,false);
+
+            }
+            else if (shortestMinotaur.getX() > initialX && shortestMinotaur.getY() > initialY) {
+                //                System.out.println("GAy1");
+//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.x+hitBox.width/2, hitBox.y + hitBox.height/2, hitBox.width, hitBox.height,1,1,-45,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(harpoonicon, hitBox.x, hitBox.y, (float) harpoonTexture.getWidth()/2, (float) harpoonTexture.getHeight()/2, harpoonTexture.getWidth(), harpoonTexture.getHeight(), 1,1,225,false);
+            }
+            else if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() < initialY) {
+                gdxGame.batch.draw(harpoonicon, hitBox.x, hitBox.y, (float) harpoonTexture.getWidth()/2, (float) harpoonTexture.getHeight()/2, harpoonTexture.getWidth(), harpoonTexture.getHeight(), 1,1,45,false);
+            }
+            else if (shortestMinotaur.getX() > initialX && shortestMinotaur.getY() < initialY) {
+                gdxGame.batch.draw(harpoonicon, hitBox.x, hitBox.y, (float) harpoonTexture.getWidth()/2, (float) harpoonTexture.getHeight()/2, harpoonTexture.getWidth(), harpoonTexture.getHeight(), 1,1,135,false);
+            }
+//            gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y);
+            System.out.println("shooting");
+        }
     }
 
     public Minotaur getClosest() {

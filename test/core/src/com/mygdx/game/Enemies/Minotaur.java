@@ -63,6 +63,10 @@ public class Minotaur {
 //        super(x,y,width,height);
         this.x = x;
         this.y=y;
+        if (PlayScreen.level > 15) walkSheet = new Texture(Gdx.files.internal("slime.png"));
+        else{
+            walkSheet = new Texture(Gdx.files.internal("minotaur3.png"));
+        }
 
 //        initializeHitBox(x,y,width,height);
     }
@@ -70,7 +74,12 @@ public class Minotaur {
 
     public void create() {
         slime = new Sprite(walkSheet);
-        hitBox = new Rectangle(x,y,10, 10);
+        if (PlayScreen.level <= 15) {
+            hitBox = new Rectangle(x, y, 10, 10);
+        }
+        else{
+            hitBox = new Rectangle(x,y,20,20);
+        }
         hitBox.setX(x);
         hitBox.setY(y);
 
@@ -106,204 +115,375 @@ public class Minotaur {
 
 
     public void render() {
-        stateTime += Gdx.graphics.getDeltaTime();
-        if (PlayScreen.mapNum == 2 && !stopFlip){
-            System.out.println("flipped");
-            for (TextureRegion region : walkAnimation.getKeyFrames()) {
-                region.flip(true, false); // Flip along the x-axis
-            }
+        if (PlayScreen.level <= 15) {
+            stateTime += Gdx.graphics.getDeltaTime();
+            if (PlayScreen.mapNum == 2 && !stopFlip) {
+                System.out.println("flipped");
+                for (TextureRegion region : walkAnimation.getKeyFrames()) {
+                    region.flip(true, false); // Flip along the x-axis
+                }
 //            currentFrame.flip(true, false);
-            stopFlip = true;
-        }
-        TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-        if (PlayScreen.mapNum == 1) {
-            if (hitBox.x < 145) {
-                hitBox.x += 1f;
+                stopFlip = true;
             }
-            if (hitBox.y < 345 && hitBox.x >= 145 && hitBox.x < 190) {
-                hitBox.y += 1f;
-                hitBox.x += 1f;
-            }
-            if (hitBox.x >= 190 && hitBox.y < 538) {
-                hitBox.y += 1f;
-            }
-            if (hitBox.y >= 538 && hitBox.x >= 190 && hitBox.x <= 243) {
-                hitBox.y += 1f;
-                hitBox.x += 1f;
-            }
-            if (hitBox.x < 384 && hitBox.y == 592) {
-                hitBox.x += 1f;
-            }
-            if (hitBox.y < 729 && hitBox.x >= 384 && hitBox.x < 521) {
-                hitBox.x += 1f;
-                hitBox.y += 1f;
-            }
-            if (hitBox.y < 760 && hitBox.x >= 521 && hitBox.x < 552) {
-                hitBox.x += 1f;
-                hitBox.y += 1f;
-            }
-            if (hitBox.x == 552 && hitBox.y < 820) {
-                hitBox.y += 1f;
-            }
+            TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
+            if (PlayScreen.mapNum == 1) {
+                if (hitBox.x < 145) {
+                    hitBox.x += 1f;
+                }
+                if (hitBox.y < 345 && hitBox.x >= 145 && hitBox.x < 190) {
+                    hitBox.y += 1f;
+                    hitBox.x += 1f;
+                }
+                if (hitBox.x >= 190 && hitBox.y < 538) {
+                    hitBox.y += 1f;
+                }
+                if (hitBox.y >= 538 && hitBox.x >= 190 && hitBox.x <= 243) {
+                    hitBox.y += 1f;
+                    hitBox.x += 1f;
+                }
+                if (hitBox.x < 384 && hitBox.y == 592) {
+                    hitBox.x += 1f;
+                }
+                if (hitBox.y < 729 && hitBox.x >= 384 && hitBox.x < 521) {
+                    hitBox.x += 1f;
+                    hitBox.y += 1f;
+                }
+                if (hitBox.y < 760 && hitBox.x >= 521 && hitBox.x < 552) {
+                    hitBox.x += 1f;
+                    hitBox.y += 1f;
+                }
+                if (hitBox.x == 552 && hitBox.y < 820) {
+                    hitBox.y += 1f;
+                }
 
-            if (hitBox.y < 906 && hitBox.x >= 552 && hitBox.x < 639 && hitBox.y >= 820) {
-                hitBox.x += 1f;
-                hitBox.y += 1f;
+                if (hitBox.y < 906 && hitBox.x >= 552 && hitBox.x < 639 && hitBox.y >= 820) {
+                    hitBox.x += 1f;
+                    hitBox.y += 1f;
+                }
+                if (hitBox.x < 985 && hitBox.y == 906) {
+                    hitBox.x += 1f;
+                }
+                if (hitBox.y < 961 && hitBox.x >= 985 && hitBox.x < 1057 && hitBox.y >= 906) {
+                    hitBox.x += 1f;
+                    hitBox.y += 1f;
+                }
+                if (hitBox.x < 1145 && hitBox.y == 961) {
+                    hitBox.x += 1f;
+                }
+                if (hitBox.y <= 961 && hitBox.x >= 1145 && hitBox.x < 1206 && hitBox.y >= 906) {
+                    hitBox.x += 1f;
+                    hitBox.y -= 1f;
+                    down = true;
+                    up = false;
+                }
+                if (hitBox.x < 1470 && hitBox.y == 905) {
+                    hitBox.x += 1f;
+                }
+                if (hitBox.y <= 905 && hitBox.x >= 1470 && hitBox.x < 1563 && hitBox.y >= 812) {
+                    hitBox.x += 1f;
+                    hitBox.y -= 1f;
+                    up = false;
+                    down = true;
+                }
+                if (hitBox.x == 1563 && hitBox.y >= 721) {
+                    hitBox.y -= 1f;
+                }
+                if (hitBox.x >= 1477 && hitBox.y >= 635 && hitBox.x <= 1563 && hitBox.y <= 721) {
+                    hitBox.y -= 1f;
+                    hitBox.x -= 1f;
+                    right = false;
+                    left = true;
+                }
+                if (hitBox.x >= 1441 && hitBox.y >= 599 && hitBox.x <= 1477 && hitBox.y <= 635) {
+                    hitBox.y -= 1f;
+                    hitBox.x -= 1f;
+                }
+                if (hitBox.y == 599 && hitBox.x >= 1319) {
+                    hitBox.x -= 1f;
+                }
+                if (hitBox.x >= 1266 && hitBox.y >= 538 && hitBox.x <= 1319 && hitBox.y <= 599) {
+                    hitBox.y -= 1f;
+                    hitBox.x -= 1f;
+                }
+                if (hitBox.x == 1265 && hitBox.y >= 398 && hitBox.y <= 599) {
+                    hitBox.y -= 2f;
+                }
+                if (hitBox.y <= 398 && hitBox.x >= 1265 && hitBox.x < 1411 && hitBox.y >= 302) {
+                    hitBox.x += 1f;
+                    hitBox.y -= 2f;
+                    right = true;
+                    left = false;
+                }
+                if (hitBox.x >= 1411 && hitBox.x < 1520 && hitBox.y == 302) {
+                    hitBox.x += 1f;
+                    hitBox.y -= 1f;
+                }
+                if (hitBox.y <= 302 && hitBox.x >= 1520 && hitBox.x < 1555 && hitBox.y >= 282) {
+                    hitBox.x += 1f;
+                    hitBox.y -= 2f;
+                }
+                if (hitBox.x == 1555 && hitBox.y >= Integer.MIN_VALUE && hitBox.y <= 282) {
+                    hitBox.y -= 2f;
+                }
             }
-            if (hitBox.x < 985 && hitBox.y == 906) {
-                hitBox.x += 1f;
-            }
-            if (hitBox.y < 961 && hitBox.x >= 985 && hitBox.x < 1057 && hitBox.y >= 906) {
-                hitBox.x += 1f;
-                hitBox.y += 1f;
-            }
-            if (hitBox.x < 1145 && hitBox.y == 961) {
-                hitBox.x += 1f;
-            }
-            if (hitBox.y <= 961 && hitBox.x >= 1145 && hitBox.x < 1206 && hitBox.y >= 906) {
-                hitBox.x += 1f;
-                hitBox.y -= 1f;
-                down = true;
-                up = false;
-            }
-            if (hitBox.x < 1470 && hitBox.y == 905) {
-                hitBox.x += 1f;
-            }
-            if (hitBox.y <= 905 && hitBox.x >= 1470 && hitBox.x < 1563 && hitBox.y >= 812) {
-                hitBox.x += 1f;
-                hitBox.y -= 1f;
-                up = false;
-                down = true;
-            }
-            if (hitBox.x == 1563 && hitBox.y >= 721) {
-                hitBox.y -= 1f;
-            }
-            if (hitBox.x >= 1477 && hitBox.y >= 635 && hitBox.x <= 1563 && hitBox.y <= 721) {
-                hitBox.y -= 1f;
-                hitBox.x -= 1f;
-                right = false;
-                left = true;
-            }
-            if (hitBox.x >= 1441 && hitBox.y >= 599 && hitBox.x <= 1477 && hitBox.y <= 635) {
-                hitBox.y -= 1f;
-                hitBox.x -= 1f;
-            }
-            if (hitBox.y == 599 && hitBox.x >= 1319) {
-                hitBox.x -= 1f;
-            }
-            if (hitBox.x >= 1266 && hitBox.y >= 538 && hitBox.x <= 1319 && hitBox.y <= 599) {
-                hitBox.y -= 1f;
-                hitBox.x -= 1f;
-            }
-            if (hitBox.x == 1265 && hitBox.y >= 398 && hitBox.y <= 599) {
-                hitBox.y -= 2f;
-            }
-            if (hitBox.y <= 398 && hitBox.x >= 1265 && hitBox.x < 1411 && hitBox.y >= 302) {
-                hitBox.x += 1f;
-                hitBox.y -= 2f;
-                right = true;
-                left = false;
-            }
-            if (hitBox.x >= 1411 && hitBox.x < 1520 && hitBox.y == 302) {
-                hitBox.x += 1f;
-                hitBox.y -= 1f;
-            }
-            if (hitBox.y <= 302 && hitBox.x >= 1520 && hitBox.x < 1555 && hitBox.y >= 282) {
-                hitBox.x += 1f;
-                hitBox.y -= 2f;
-            }
-            if (hitBox.x == 1555 && hitBox.y >= Integer.MIN_VALUE && hitBox.y <= 282) {
-                hitBox.y -= 2f;
-            }
-        }
-        if (PlayScreen.mapNum == 2) {
-            if (hitBox.x > 627 && hitBox.y == 835) {
+            if (PlayScreen.mapNum == 2) {
+                if (hitBox.x > 627 && hitBox.y == 835) {
 //                if (needFlip) {
 //                    currentFrame.flip(true, false);
 //                    create();
 //                    needFlip = false;
 //                }
-                hitBox.x -= 1f;
-            }
-            if (hitBox.x >= 526 && hitBox.y >= 726 && hitBox.x <= 627 && hitBox.y <= 835) {
-                hitBox.y -= 1f;
-                hitBox.x -= 1f;
-            }
-            if (hitBox.y == 725){
+                    hitBox.x -= 1f;
+                }
+                if (hitBox.x >= 526 && hitBox.y >= 726 && hitBox.x <= 627 && hitBox.y <= 835) {
+                    hitBox.y -= 1f;
+                    hitBox.x -= 1f;
+                }
+                if (hitBox.y == 725) {
 
 //                stopFlip=false;
 //                hitBox.x = (hitBox.x+hitBox.width)*-1;
 //                hitBox.x+=10;
-            }
-            if (hitBox.x == 525 && hitBox.y > 635) {
-                hitBox.y -= 1f;
-            }
-            if (hitBox.y <= 635 && hitBox.x >= 525 && hitBox.x < 628 && hitBox.y >= 532) {
-                hitBox.x += 1f;
-                hitBox.y -= 1f;
-            }
-            if (hitBox.x < 738 && hitBox.y == 532) {
-                hitBox.x += 1f;
-            }
-            if (hitBox.y <= 532 && hitBox.x >= 738 && hitBox.x < 828 && hitBox.y >= 442) {
-                hitBox.x += 1f;
-                hitBox.y -= 1f;
-            }
-            if (hitBox.x == 828 && hitBox.y > 291 && hitBox.y <= 442) {
-                hitBox.y -= 1f;
-                int max = 10;
-                int min = 1;
-                int range = max - min + 1;
-                rand = (int) (Math.random() * range) + min;
-                System.out.println(rand);
-            }
-            if (rand > 3 && hitBox.y == 291 && hitBox.x < 882) {
-                hitBox.x++;
-            }
-            if (rand > 3 && hitBox.y <= 291 && hitBox.x >= 882 && hitBox.x < 954 && hitBox.y >= 219) {
-                hitBox.x += 1f;
-                hitBox.y -= 1f;
-            }
-            if (rand > 3 && hitBox.y == 219 && hitBox.x < Integer.MAX_VALUE) {
-                hitBox.x++;
-            }
+                }
+                if (hitBox.x == 525 && hitBox.y > 635) {
+                    hitBox.y -= 1f;
+                }
+                if (hitBox.y <= 635 && hitBox.x >= 525 && hitBox.x < 628 && hitBox.y >= 532) {
+                    hitBox.x += 1f;
+                    hitBox.y -= 1f;
+                }
+                if (hitBox.x < 738 && hitBox.y == 532) {
+                    hitBox.x += 1f;
+                }
+                if (hitBox.y <= 532 && hitBox.x >= 738 && hitBox.x < 828 && hitBox.y >= 442) {
+                    hitBox.x += 1f;
+                    hitBox.y -= 1f;
+                }
+                if (hitBox.x == 828 && hitBox.y > 291 && hitBox.y <= 442) {
+                    hitBox.y -= 1f;
+                    int max = 10;
+                    int min = 1;
+                    int range = max - min + 1;
+                    rand = (int) (Math.random() * range) + min;
+                    System.out.println(rand);
+                }
+                if (rand > 3 && hitBox.y == 291 && hitBox.x < 882) {
+                    hitBox.x++;
+                }
+                if (rand > 3 && hitBox.y <= 291 && hitBox.x >= 882 && hitBox.x < 954 && hitBox.y >= 219) {
+                    hitBox.x += 1f;
+                    hitBox.y -= 1f;
+                }
+                if (rand > 3 && hitBox.y == 219 && hitBox.x < Integer.MAX_VALUE) {
+                    hitBox.x++;
+                }
 
-            if (rand <= 3 && hitBox.y == 291 && hitBox.x > 728) {
-                hitBox.x--;
-            }
-            if (rand <= 3 && hitBox.x == 827&&hitBox.y==291){
+                if (rand <= 3 && hitBox.y == 291 && hitBox.x > 728) {
+                    hitBox.x--;
+                }
+                if (rand <= 3 && hitBox.x == 827 && hitBox.y == 291) {
 //                stopFlip = false;
 //                hitBox.x = (hitBox.x+hitBox.width)*-1;
+                }
+                if (rand <= 3 && hitBox.x <= 728 && hitBox.y >= 181 && hitBox.x >= 624 && hitBox.y <= 291) {
+                    hitBox.y -= 1f;
+                    hitBox.x -= 1f;
+
+                }
+                if (rand <= 3 && hitBox.x == 623 && hitBox.y > Integer.MIN_VALUE) {
+                    hitBox.y -= 1f;
+
+                }
+                hitBox = new Rectangle(hitBox.x, hitBox.y, 10, 10);
+//        }
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    hitBox.x -= 1;
+                    System.out.println("x:" + hitBox.x + " y:" + hitBox.y);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    hitBox.x += 2;
+                    System.out.println("x:" + hitBox.x + " y:" + hitBox.y);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    hitBox.y += 1;
+                    System.out.println("x:" + hitBox.x + " y:" + hitBox.y);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                    hitBox.y -= 2;
+                    System.out.println("x:" + hitBox.x + " y:" + hitBox.y);
+                }
             }
-            if (rand <= 3 && hitBox.x <= 728 && hitBox.y >= 181 && hitBox.x >= 624 && hitBox.y <= 291) {
-                hitBox.y -= 1f;
-                hitBox.x -= 1f;
+            gdxGame.batch.draw(currentFrame, hitBox.x, hitBox.y);
+        }
+        else{   //BOSS
+            stateTime += Gdx.graphics.getDeltaTime();
+            if (PlayScreen.mapNum == 2 && !stopFlip) {
+                System.out.println("flipped");
+                for (TextureRegion region : walkAnimation.getKeyFrames()) {
+                    region.flip(true, false); // Flip along the x-axis
+                }
+//            currentFrame.flip(true, false);
+                stopFlip = true;
+            }
+            TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
+            if (PlayScreen.mapNum == 1) {
+                if (hitBox.x < 16&&hitBox.y==222) {
+                    hitBox.x += 2f;
+                }
+                if (hitBox.y <= 360 && hitBox.x >= 16 && hitBox.x <= 152) {
+                    hitBox.y += 2f;
+                    hitBox.x += 2f;
+                }
+                if (hitBox.x == 154 && hitBox.y <= 456&&hitBox.y>=358) {
+                    hitBox.y += 2f;
+                }
+                if (hitBox.y >= 456 && hitBox.x >= 152 && hitBox.x <= 236&& hitBox.y < 536) {
+                    hitBox.y += 2f;
+                    hitBox.x += 2f;
+                }
+                if (hitBox.x < 334 && hitBox.y == 536) {
+                    hitBox.x += 2f;
+                }
+                if (hitBox.y <= 670 && hitBox.x >= 334 && hitBox.x < 464&&hitBox.y >= 536) {
+                    hitBox.x += 2f;
+                    hitBox.y += 2f;
+                }
+
+                if (hitBox.x == 464 && hitBox.y < 772) {
+                    hitBox.y += 2f;
+                }
+                if (hitBox.y < 850 && hitBox.x >= 464 && hitBox.x < 548 && hitBox.y >= 772) {
+                    hitBox.x += 2f;
+                    hitBox.y += 2f;
+                }
+                if (hitBox.x < 934 && hitBox.y == 850) {
+                    hitBox.x += 2f;
+                }
+                if (hitBox.y < 902 && hitBox.x >= 934 && hitBox.x < 988 && hitBox.y >= 850) {
+                    hitBox.x += 2f;
+                    hitBox.y += 2f;
+                }
+                if (hitBox.x < 1120 && hitBox.y == 902) {
+                    hitBox.x += 2f;
+                }
+                if (hitBox.y <= 902 && hitBox.x >= 1120 && hitBox.x < 1176 && hitBox.y >= 848) {
+                    hitBox.x += 2f;
+                    hitBox.y -= 2f;
+
+                }
+                if (hitBox.x < 1436 && hitBox.y == 848) {
+                    hitBox.x += 2f;
+                }
+                if (hitBox.y <= 848 && hitBox.x >= 1436 && hitBox.x < 1502 && hitBox.y >= 776) {
+                    hitBox.x += 2f;
+                    hitBox.y -= 2f;
+                }
+                if (hitBox.x == 1502 && hitBox.y >= 662) {
+                    hitBox.y -= 2f;
+                }
+                if (hitBox.x >= 1394 && hitBox.y >= 552 && hitBox.x <= 1502 && hitBox.y <= 662) {
+                    hitBox.y -= 2f;
+                    hitBox.x -= 2f;
+                }
+                if (hitBox.y == 552 && hitBox.x >= 1288) {
+                    hitBox.x -= 2f;
+                }
+                if (hitBox.x >= 1182 && hitBox.y >= 454 && hitBox.x <= 1288 && hitBox.y <= 552) {
+                    hitBox.y -= 2f;
+                    hitBox.x -= 2f;
+                }
+                if (hitBox.x == 1188 && hitBox.y >= 358 && hitBox.y <= 454) {
+                    hitBox.y -= 2f;
+                }
+                if (hitBox.y <= 358 && hitBox.x >= 1188 && hitBox.x < 1316 && hitBox.y >= 236) {
+                    hitBox.x += 2f;
+                    hitBox.y -= 2f;
+
+                }
+                if (hitBox.x <= 1390 && hitBox.y == 234) {
+                    hitBox.x += 2f;
+                }
+
+                if (hitBox.y <= 234 && hitBox.x >= 1390 && hitBox.x < 1492 && hitBox.y >= 136) {
+                    hitBox.x += 2f;
+                    hitBox.y -= 2f;
+                }
+                if (hitBox.x == 1490 && hitBox.y >= Integer.MIN_VALUE && hitBox.y <= 136) {
+                    hitBox.y -= 2f;
+                }
 
             }
-            if (rand <= 3 && hitBox.x == 623 && hitBox.y > Integer.MIN_VALUE) {
-                hitBox.y -= 1f;
+            if (PlayScreen.mapNum == 2) {
+                if (hitBox.x > 560 && hitBox.y == 770) {
+//                if (needFlip) {
+//                    currentFrame.flip(true, false);
+//                    create();
+//                    needFlip = false;
+//                }
+                    hitBox.x -= 2f;
+                }
+                if (hitBox.x >= 456 && hitBox.y >= 658 && hitBox.x <= 560 && hitBox.y <= 770) {
+                    hitBox.y -= 2f;
+                    hitBox.x -= 2f;
+                }
+                if (hitBox.y == 658){
 
+
+//                stopFlip=false;
+//                hitBox.x = (hitBox.x+hitBox.width)*-1;
+//                hitBox.x+=10;
+                }
+                if (hitBox.x == 454 && hitBox.y > 576) {
+                    hitBox.y -= 2f;
+                }
+                if (hitBox.y <= 576 && hitBox.x >= 454 && hitBox.x < 575 && hitBox.y >= 458) {
+                    hitBox.x += 2f;
+                    hitBox.y -= 2f;
+                }
+                if (hitBox.x < 669 && hitBox.y == 456) {
+                    hitBox.x += 2f;
+                }
+                if (hitBox.y <= 456 && hitBox.x >= 669 && hitBox.x < 783 && hitBox.y >= 342) {
+                    hitBox.x += 2f;
+                    hitBox.y -= 2f;
+                }
+                if (hitBox.x == 784 && hitBox.y > 223 && hitBox.y <= 342) {
+                    hitBox.y -= 2f;
+                    int max = 10;
+                    int min = 1;
+                    int range = max - min + 1;
+                    rand = (int) (Math.random() * range) + min;
+                    System.out.println(rand);
+                }
+
+                if (rand > 3 && hitBox.y <= 222 && hitBox.x >= 784 && hitBox.x < 882 && hitBox.y >= 142) {
+                    hitBox.x += 1f;
+                    hitBox.y -= 1f;
+                }
+                if (rand > 3 && hitBox.y == 141 && hitBox.x < Integer.MAX_VALUE) {
+                    hitBox.x+=2;
+                }
+
+
+                if (rand <= 3 && hitBox.y == 222 && hitBox.x > 648) {
+                    hitBox.x-=2;
+                }
+                if (rand <= 3 && hitBox.x == 827&&hitBox.y==291){
+//                stopFlip = false;
+//                hitBox.x = (hitBox.x+hitBox.width)*-1;
+                }
+                if (rand <= 3 && hitBox.x <= 648 && hitBox.y >= 134 && hitBox.x >= 560 && hitBox.y <= 222) {
+                    hitBox.y -= 2f;
+                    hitBox.x -= 2f;
+
+
+                }
+                if (rand <= 3 && hitBox.x == 560 && hitBox.y > Integer.MIN_VALUE) {
+                    hitBox.y -= 2f;
+                }
             }
             hitBox = new Rectangle(hitBox.x, hitBox.y, 10, 10);
-//        }
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                hitBox.x -= 1;
-                System.out.println("x:" + hitBox.x + " y:" + hitBox.y);
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                hitBox.x += 2;
-                System.out.println("x:" + hitBox.x + " y:" + hitBox.y);
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                hitBox.y += 1;
-                System.out.println("x:" + hitBox.x + " y:" + hitBox.y);
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                hitBox.y -= 2;
-                System.out.println("x:" + hitBox.x + " y:" + hitBox.y);
-            }
         }
-        gdxGame.batch.draw(currentFrame, hitBox.x, hitBox.y);
 //        hitBox = new Rectangle(hitBox.x,hitBox.y,10, 10);
     }
 

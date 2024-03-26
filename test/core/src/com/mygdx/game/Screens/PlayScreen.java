@@ -71,7 +71,7 @@ public class PlayScreen implements Screen, InputProcessor {
     private boolean currentlyBetaTower;
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
-    public static int level = 1;
+    public static int level = 15;
     //    public BitmapFont font = new BitmapFont();
     private  FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/04B_03__.TTF"));
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -123,11 +123,22 @@ public class PlayScreen implements Screen, InputProcessor {
         parameter.size = 20;
         if (mapNum == 1){
             map = new Texture("map3.png");
-            int x = -55;
-            for (int i = 0; i < level*5;i++){
-                minotaurs.add(new Minotaur(x, 299));
-                x-=180;
-                slimeCount++;
+            if (level <15) {
+                int x = -55;
+//                int slimeX = -246;
+                for (int i = 0; i < level * 1.5; i++) {
+                    minotaurs.add(new Minotaur(x, 299));
+//                slimes.add(new Slime(x,222));
+                    x -= 180;
+                    slimeCount++;
+                }
+            }
+            if (level >= 15){
+                int slimeX = -246;
+                for (int i = 0; i < level/5;i++){
+                    minotaurs.add(new Minotaur(slimeX, 222));
+                    slimeX-=180;
+                }
             }
         }
         if (mapNum == 2){
@@ -154,8 +165,12 @@ public class PlayScreen implements Screen, InputProcessor {
             s.create();
             System.out.println(s);
 //            shapeRenderer.rect(s.getX(), s.getY(), 10,20);
-
         }
+//        if (level > 15) {
+//            for (Slime s : slimes) {
+//                s.create();
+//            }
+//        }
 //        firetowers.add(new FireTowerAnimation(0, 0, 50, 50));
 //        rocktowers.add(new RockTowerAnimation(200, 200, 50, 50));
 //        firetowers.get(0).create();
@@ -196,14 +211,14 @@ public class PlayScreen implements Screen, InputProcessor {
         gdxGame.batch.draw(betaTowerButton,400*xScale, 0 * yScale, 80*xScale, 120*yScale);
         for (Minotaur s : minotaurs) {
             s.render();
-            System.out.println(s);
-            shapeRenderer.rect(s.getX(), s.getY(), 10,10);
+//            System.out.println(s);
+//            shapeRenderer.rect(s.getX(), s.getY(), 10,10);
 
         }
         for (FireTower f : firetowers) {
             f.render();
             f.spawnProjectile();
-            shapeRenderer.circle(f.getX(), f.getY(), f.getRadius());
+//            shapeRenderer.circle(f.getX(), f.getY(), f.getRadius());
             for (Fire g : f.getFires()){
                 g.render(f);
                 g.getClosest();
@@ -410,6 +425,7 @@ public class PlayScreen implements Screen, InputProcessor {
         }
         isDraggingFire = false;
         currentlyFireTower = false;
+
         if (currentlyRockTower && selectedRockTower.checkBox()) {
             dinero -= 100;
             rocktowers.add(new RockTower(screenX, 1080 - screenY-80, 150));
@@ -419,7 +435,6 @@ public class PlayScreen implements Screen, InputProcessor {
             selectedRockTower.create();
             isDraggingRock = false;
             currentlyRockTower = false;
-
             return true;
         }
         else{
@@ -436,7 +451,8 @@ public class PlayScreen implements Screen, InputProcessor {
             harpoonTowerIndex++;
             selectedHarpoonTower = new HarpoonTower(160, 0, 80);
             selectedHarpoonTower.create();
-
+            isDraggingHarpoon = false;
+            currentlyHarpoonTower = false;
             return true;
         }
 
@@ -454,8 +470,8 @@ public class PlayScreen implements Screen, InputProcessor {
             arrowTowerIndex++;
             selectedArrowTower = new ArrowTower(240, 0, 80);
             selectedArrowTower.create();
-
-
+            isDraggingArrow = false;
+            currentlyArrowTower = false;
             return true;
         }
         else{
@@ -490,13 +506,14 @@ public class PlayScreen implements Screen, InputProcessor {
             selectedBetaTower.create();
             isDraggingBeta = false;
             currentlyBetaTower = false;
-
             return true;
         }
         else{
             selectedBetaTower.setX(99999999);
             selectedBetaTower.setY(99999999);
         }
+        isDraggingBeta = false;
+        currentlyBetaTower = false;
         System.out.println("x:"+screenX+"y"+screenY);
         return false;
 
@@ -536,6 +553,7 @@ public class PlayScreen implements Screen, InputProcessor {
             isDraggingAlpha = true;
             selectedAlphaTower.setX(screenX);
             selectedAlphaTower.setY(1080-screenY-80);
+            return true;
         }
         else if (currentlyBetaTower){
             isDraggingBeta = true;
