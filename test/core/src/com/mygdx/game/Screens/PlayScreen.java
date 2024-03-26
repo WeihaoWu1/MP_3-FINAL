@@ -3,6 +3,7 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Enemies.Minotaur;
+import com.mygdx.game.Enemies.Slime;
 import com.mygdx.game.Projectiles.*;
 import com.mygdx.game.Towers.*;
 import com.mygdx.game.gdxGame;
@@ -38,6 +40,8 @@ public class PlayScreen implements Screen, InputProcessor {
     public static ArrayList<AlphaTower> alphatowers = new ArrayList<AlphaTower>();
     public static ArrayList<BetaTower> betatowers = new ArrayList<BetaTower>();
     public static ArrayList<Minotaur> minotaurs = new ArrayList<Minotaur>();
+    public static ArrayList<Slime> slimes = new ArrayList<Slime>();
+
 
     int slimeCount;
 
@@ -46,7 +50,7 @@ public class PlayScreen implements Screen, InputProcessor {
     private HarpoonTower selectedHarpoonTower  = new HarpoonTower(160, 100,80);
     private ArrowTower selectedArrowTower  = new ArrowTower(240, 100,80);
     private AlphaTower selectedAlphaTower = new AlphaTower(320, 100, 80);
-    private BetaTower selectedBetaTower = new BetaTower(320, 100, 80);
+    private BetaTower selectedBetaTower = new BetaTower(400, 100, 80);
 
 
     private int fireTowerIndex;
@@ -121,6 +125,16 @@ public class PlayScreen implements Screen, InputProcessor {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
         parameter.size = 20;
+        if (level==15){
+            gdxGame.backgroundMusic.pause();
+            gdxGame.assetManager.load("bossMusic.mp3", Music.class);
+            gdxGame.assetManager.finishLoading();
+            gdxGame.backgroundMusic = gdxGame.assetManager.get("bossMusic.mp3", Music.class);
+            gdxGame.backgroundMusic.setLooping(true);
+            game.setScreen(new PlayScreen(game, mapNum));
+            gdxGame.backgroundMusic.setVolume(0.07f);
+            gdxGame.backgroundMusic.play();
+        }
         if (mapNum == 1){
             map = new Texture("map3.png");
             if (level <15) {
@@ -144,10 +158,21 @@ public class PlayScreen implements Screen, InputProcessor {
         if (mapNum == 2){
             map = new Texture("map4.png");
             int x = 1650;
-            for (int i = 0; i < level*5; i++) {
-                minotaurs.add(new Minotaur(x, 835));
-                x += 180;
-                slimeCount++;
+
+            if (level <15) {
+                for (int i = 0; i < level * 1.5; i++) {
+                    minotaurs.add(new Minotaur(x, 835));
+//                slimes.add(new Slime(x,770));
+                    x += 180;
+                    slimeCount++;
+                }
+            }
+            if (level >= 15){
+                int slimeX = -246;
+                for (int i = 0; i < level/5;i++){
+                    minotaurs.add(new Minotaur(slimeX, 222));
+                    slimeX-=180;
+                }
             }
         }
 //        int x = 1650;
@@ -286,6 +311,7 @@ public class PlayScreen implements Screen, InputProcessor {
         if (isDraggingFire) selectedFireTower.render();
         if (isDraggingRock) selectedRockTower.render();
         if (isDraggingHarpoon) selectedHarpoonTower.render();
+        if (isDraggingArrow) selectedArrowTower.render();
         if (isDraggingAlpha) selectedAlphaTower.render();
         if (isDraggingBeta) selectedBetaTower.render();
 
@@ -295,7 +321,12 @@ public class PlayScreen implements Screen, InputProcessor {
             shapeRenderer.end();
             show();
         }
+//            for (Slime s : slimes) {
+//                s.render();
+//            }
+
         gdxGame.batch.end();
+
     }
 
     @Override
@@ -325,6 +356,9 @@ public class PlayScreen implements Screen, InputProcessor {
         gdxGame.batch.dispose();
         map.dispose();
         for (Minotaur s : minotaurs) {
+            s.dispose();
+        }
+        for (Slime s : slimes) {
             s.dispose();
         }
         for (FireTower f : firetowers) {
@@ -478,6 +512,8 @@ public class PlayScreen implements Screen, InputProcessor {
             selectedArrowTower.setX(99999999);
             selectedArrowTower.setY(99999999);
         }
+        isDraggingArrow = false;
+        currentlyArrowTower = false;
 
         if (currentlyAlphaTower && selectedAlphaTower.checkBox()) {
             dinero -= 100;
@@ -495,8 +531,8 @@ public class PlayScreen implements Screen, InputProcessor {
             selectedAlphaTower.setX(99999999);
             selectedAlphaTower.setY(99999999);
         }
-
-
+        isDraggingAlpha = false;
+        currentlyAlphaTower = false;
         if (currentlyBetaTower && selectedBetaTower.checkBox()) {
             dinero -= 100;
             betatowers.add(new BetaTower(screenX, 1080 - screenY-80, 150));
@@ -548,6 +584,7 @@ public class PlayScreen implements Screen, InputProcessor {
             isDraggingArrow = true;
             selectedArrowTower.setX(screenX);
             selectedArrowTower.setY(1080-screenY-80);
+            return true;
         }
         else if (currentlyAlphaTower){
             isDraggingAlpha = true;
@@ -559,6 +596,7 @@ public class PlayScreen implements Screen, InputProcessor {
             isDraggingBeta = true;
             selectedBetaTower.setX(screenX);
             selectedBetaTower.setY(1080-screenY-80);
+            return true;
         }
         return false;
     }

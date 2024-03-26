@@ -47,19 +47,19 @@ public class gdxGame extends Game implements Runnable{
 	public void create () {
 		setScreen(new MenuScreen(this));
 		batch = new SpriteBatch();
-//		assetManager = new AssetManager();
-//		assetManager.load("menuMusic.mp3", Music.class);
-//		assetManager.load("minotaurDeath.mp3", Sound.class);
+		assetManager = new AssetManager();
+		assetManager.load("menuMusic.mp3", Music.class);
+		assetManager.load("minotaurDeath.mp3", Sound.class);
 //		assetManager.load("audio/sound_effect.mp3", Sound.class);
-//		assetManager.finishLoading();
-////
-////		backgroundMusic = assetManager.get("menuMusic.mp3", Music.class);
-////		soundEffect = assetManager.get("minotaurDeath.mp3", Sound.class);
-////		soundEffect = assetManager.get("audio/sound_effect.mp3", Sound.class);
+		assetManager.finishLoading();
 //
-//		backgroundMusic.setLooping(true);
-//		backgroundMusic.play();
-//		backgroundMusic.setVolume(0.2f);
+		backgroundMusic = assetManager.get("menuMusic.mp3", Music.class);
+		soundEffect = assetManager.get("minotaurDeath.mp3", Sound.class);
+//		soundEffect = assetManager.get("audio/sound_effect.mp3", Sound.class);
+
+		backgroundMusic.setLooping(true);
+		backgroundMusic.play();
+		backgroundMusic.setVolume(0.2f);
 
 
 	}

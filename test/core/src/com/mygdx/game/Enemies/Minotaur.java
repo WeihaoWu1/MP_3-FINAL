@@ -20,7 +20,7 @@ public class Minotaur {
 
     // Objects used
     Animation<TextureRegion> walkAnimation; // Must declare frame type (TextureRegion)
-    Texture walkSheet = new Texture(Gdx.files.internal("minotaur3.png"));;
+    Texture walkSheet;
     SpriteBatch spriteBatch;
 
     // A variable for tracking elapsed time for the animation

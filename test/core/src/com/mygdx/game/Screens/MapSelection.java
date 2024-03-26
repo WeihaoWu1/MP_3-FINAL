@@ -103,20 +103,21 @@ public class MapSelection implements Screen, InputProcessor {
             gdxGame.assetManager.finishLoading();
             gdxGame.backgroundMusic = gdxGame.assetManager.get("map3music.mp3", Music.class);
             gdxGame.backgroundMusic.setLooping(true);
-            gdxGame.backgroundMusic.play();
-            gdxGame.backgroundMusic.setVolume(0.1f);
             game.setScreen(new PlayScreen(game, mapNum));
+            gdxGame.backgroundMusic.setVolume(0.07f);
+            gdxGame.backgroundMusic.play();
         }
         if (screenX >= 943 && screenX <= 1660 && screenY >= 391 && screenY <= 818){
             mapNum = 2;
-//            gdxGame.backgroundMusic.pause();
-//            gdxGame.assetManager.load("map3music.mp3", Music.class);
-//            gdxGame.assetManager.finishLoading();
-//            gdxGame.backgroundMusic = gdxGame.assetManager.get("map3music.mp3", Music.class);
-//            gdxGame.backgroundMusic.setLooping(true);
-//            gdxGame.backgroundMusic.play();
+            gdxGame.backgroundMusic.pause();
+            gdxGame.assetManager.load("map4music.mp3", Music.class);
+            gdxGame.assetManager.finishLoading();
+            gdxGame.backgroundMusic = gdxGame.assetManager.get("map4music.mp3", Music.class);
+            gdxGame.backgroundMusic.setLooping(true);
             game.setScreen(new PlayScreen(game, mapNum));
-//            gdxGame.backgroundMusic.setVolume(0.1f);
+            gdxGame.backgroundMusic.setVolume(0.07f);
+            gdxGame.backgroundMusic.play();
+
         }
         return false;
     }
