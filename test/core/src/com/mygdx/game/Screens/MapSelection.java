@@ -6,14 +6,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gdxGame;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-
-
-import java.util.Map;
 
 public class MapSelection implements Screen, InputProcessor {
     private Texture mapScreen = new Texture("mapSelection.png");
