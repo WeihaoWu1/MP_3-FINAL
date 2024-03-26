@@ -46,6 +46,8 @@ public class MenuScreen implements Screen, InputProcessor {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+        System.out.println(width);
+        System.out.println(height);
     }
 
     @Override

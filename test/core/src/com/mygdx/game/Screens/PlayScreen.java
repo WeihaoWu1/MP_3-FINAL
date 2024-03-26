@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Enemies.Minotaur;
-import com.mygdx.game.Enemies.Slime;
+//import com.mygdx.game.Enemies.Slime;
 import com.mygdx.game.Projectiles.*;
 import com.mygdx.game.Towers.*;
 import com.mygdx.game.gdxGame;
@@ -40,7 +40,7 @@ public class PlayScreen implements Screen, InputProcessor {
     public static ArrayList<AlphaTower> alphatowers = new ArrayList<AlphaTower>();
     public static ArrayList<BetaTower> betatowers = new ArrayList<BetaTower>();
     public static ArrayList<Minotaur> minotaurs = new ArrayList<Minotaur>();
-    public static ArrayList<Slime> slimes = new ArrayList<Slime>();
+//    public static ArrayList<Slime> slimes = new ArrayList<Slime>();
 
 
     int slimeCount;
@@ -75,15 +75,15 @@ public class PlayScreen implements Screen, InputProcessor {
     private boolean currentlyBetaTower;
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
-    public static int level = 1;
+    public static int level = 9;
     //    public BitmapFont font = new BitmapFont();
-    private  FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/CandyCloud-yYYBY.ttf"));
+    private  FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/04B_03__.TTF"));
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 
     private BitmapFont font = generator.generateFont(parameter);
 
-    private String displayLevel = "Level: 1";
+    private String displayLevel = "Level: " + level;
     public static int dinero = 100;
     private String displayDinero = "$ " + dinero;
     public static int mapNum;
@@ -149,7 +149,7 @@ public class PlayScreen implements Screen, InputProcessor {
             if (level >= 10){
                 int slimeX = -246;
                 for (int i = 0; i < level;i++){
-                    minotaurs.add(new Minotaur(slimeX, 222+40));
+                    minotaurs.add(new Minotaur(slimeX + 50, 222+40));
                     slimeX-=180;
                 }
             }
@@ -159,7 +159,7 @@ public class PlayScreen implements Screen, InputProcessor {
             int x = 1650;
 
             if (level <10) {
-                for (int i = 0; i < level * 1.5; i++){
+                for (int i = 0; i < 1; i++){
                    minotaurs.add(new Minotaur(x, 835));
 //                slimes.add(new Slime(x,770));
                     x += 180;
@@ -168,8 +168,8 @@ public class PlayScreen implements Screen, InputProcessor {
             }
             if (level >= 10){
                 int slimeX = 1950;
-                for (int i = 0; i < level;i++){
-                    minotaurs.add(new Minotaur(slimeX, 810)); //+40
+                for (int i = 0; i < level/3;i++){
+                    minotaurs.add(new Minotaur(slimeX+50, 770+40)); //+40
                     slimeX-=300;
                     slimeCount++;
                 }
@@ -214,13 +214,15 @@ public class PlayScreen implements Screen, InputProcessor {
     public void render(float delta) {
 //        Gdx.gl.glViewport(0, 0, 1760, 1080);
         displayDinero = "$ " + dinero;
+        displayHealth = "Health: " + health;
+        displayLevel = "Level: " + level;
         Gdx.input.setInputProcessor(this);
         ScreenUtils.clear(1, 1, 1, 1);
 //        viewport.apply();
 //        gdxGame.batch.setProjectionMatrix(camera.combined);
         gdxGame.batch.begin();
         shapeRenderer.setColor(Color.BLUE);
-//        shapeRenderer.begin();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         slimeCount=0;
         gdxGame.batch.draw(map, 0, 110, 1760, 980);
         font.getData().setScale(5f);
@@ -238,7 +240,7 @@ public class PlayScreen implements Screen, InputProcessor {
         for (Minotaur s : minotaurs) {
             s.render();
 //            System.out.println(s);
-//            shapeRenderer.rect(s.getX(), s.getY(), 10,10);
+            shapeRenderer.rect(s.getX(), s.getY(), 10,10);
 
         }
         for (FireTower f : firetowers) {
@@ -328,11 +330,13 @@ public class PlayScreen implements Screen, InputProcessor {
 //            }
 
         gdxGame.batch.end();
-
+        shapeRenderer.end();
     }
 
     @Override
     public void resize(int width, int height) {
+        System.out.println(width);
+        System.out.println(height);
         viewport.update(width, height);
         xScale = (float) width /originalScreenWidth;
         yScale = (float) height /originalScreenHeight;
@@ -360,9 +364,9 @@ public class PlayScreen implements Screen, InputProcessor {
         for (Minotaur s : minotaurs) {
             s.dispose();
         }
-        for (Slime s : slimes) {
-            s.dispose();
-        }
+//        for (Slime s : slimes) {
+//            s.dispose();
+//        }
         for (FireTower f : firetowers) {
             f.dispose();
             for (Fire d : f.getFires()){
