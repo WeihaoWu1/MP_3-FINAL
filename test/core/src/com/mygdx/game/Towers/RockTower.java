@@ -27,6 +27,7 @@ public class RockTower extends TowerHitBox {
     private ArrayList<Rock> rocks  = new ArrayList<Rock>();
 
     private float increment;
+    public static int cost = 100;
 
 
     public RockTower(float x, float y, float radius){
