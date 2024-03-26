@@ -17,6 +17,7 @@ public class AlphaTower extends TowerHitBox {
     private Texture alphaTower = new Texture("alphaTower.png");
     // A variable for tracking elapsed time for the animation
     private ArrayList<AlphaStrike> alphaStrikes  = new ArrayList<AlphaStrike>();
+    public static int cost = 70;
 
 
 
