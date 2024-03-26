@@ -29,6 +29,8 @@ public class HarpoonTower extends TowerHitBox {
 
     private float increment;
 
+    public static int cost =50;
+
 
     public HarpoonTower (float x, float y, float radius){
         super(x+80,y+40,radius);
