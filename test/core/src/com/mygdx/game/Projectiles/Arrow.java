@@ -43,10 +43,10 @@ public class Arrow {
     public void render(ArrowTower f) {
         if (getClosest() != null && Intersector.overlaps(f.getHitBox(), getClosest().getHitBox())) {
             if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() > f.getY()){
-//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,0,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(arrowicon, hitBox.x, hitBox.y, (float) arrowTexture.getWidth()/2, (float) arrowTexture.getHeight()/2, arrowTexture.getWidth(), arrowTexture.getHeight(), 1,1,0,false);
             }
             else if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() < f.getY()){
-//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,180,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(arrowicon, hitBox.x, hitBox.y, (float) arrowTexture.getWidth()/2, (float) arrowTexture.getHeight()/2, arrowTexture.getWidth(), arrowTexture.getHeight(), 1,1,180,false);
             }
             else if (shortestMinotaur.getX() <= f.getX() && shortestMinotaur.getY() > f.getY()) {
                 gdxGame.batch.draw(arrowicon, hitBox.x, hitBox.y, (float) arrowTexture.getWidth()/2, (float) arrowTexture.getHeight()/2, arrowTexture.getWidth(), arrowTexture.getHeight(), 1,1,315,false);
@@ -64,7 +64,6 @@ public class Arrow {
                 gdxGame.batch.draw(arrowicon, hitBox.x, hitBox.y, (float) arrowTexture.getWidth()/2, (float) arrowTexture.getHeight()/2, arrowTexture.getWidth(), arrowTexture.getHeight(), 1,1,135,false);
             }
 //            gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y);
-            System.out.println("shooting");
         }
     }
 
@@ -86,7 +85,6 @@ public class Arrow {
     public  void intersects(ArrowTower a) {
         for (int i = PlayScreen.minotaurs.size() - 1; i >= 0; i--) {
             if (PlayScreen.minotaurs.get(i) == (getClosest())) {
-//                System.out.println("affs");
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(a.getHitBox(), hitBox))) {
                     System.out.println("hit");
                     getClosest().health -= 20;
@@ -158,6 +156,10 @@ public class Arrow {
                 float ratiox = xDist / realDist;
                 xIncrement = realDist * (ratiox / 10);
                 yIncrement = realDist * (ratioy / 10);
+                if (PlayScreen.level >= 10){
+                    xIncrement *= 2;
+                    yIncrement*=2;
+                }
                 if (Intersector.overlaps(a.getHitBox(), hitBox)) {
                     if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() > initialY) {
                         hitBox.x -= xIncrement;

@@ -18,6 +18,7 @@ public class TowerHitBox {
         this.y =y;
         this.radius = radius;
     }
+    public TowerHitBox(){}
 
     protected void initializeHitBox(float x, float y, float radius) {
         this.x = x;

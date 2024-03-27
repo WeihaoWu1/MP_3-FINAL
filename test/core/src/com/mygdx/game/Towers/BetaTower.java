@@ -167,6 +167,8 @@ public class BetaTower extends TowerHitBox{
                 return false;
             }
         }
+        if (hitBox.y <= 179) return false;
+
         return true;
     }
     public void setX(float x){

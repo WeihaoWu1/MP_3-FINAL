@@ -36,10 +36,10 @@ public class AlphaStrike {
     public void render(AlphaTower f){
         if (getClosest() != null && Intersector.overlaps(f.getHitBox(), getClosest().getHitBox())) {
             if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() > f.getY()){
-//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,0,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(alphaicon, hitBox.x, hitBox.y, (float) alphaTexture.getWidth()/2, (float) alphaTexture.getHeight()/2, alphaTexture.getWidth(), alphaTexture.getHeight(), 1,1,0,false);
             }
             else if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() < f.getY()){
-//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,180,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(alphaicon, hitBox.x, hitBox.y, (float) alphaTexture.getWidth()/2, (float) alphaTexture.getHeight()/2, alphaTexture.getWidth(), alphaTexture.getHeight(), 1,1,180,false);
             }
             else if (shortestMinotaur.getX() <= f.getX() && shortestMinotaur.getY() > f.getY()) {
                 gdxGame.batch.draw(alphaicon, hitBox.x, hitBox.y, (float) alphaTexture.getWidth()/2, (float) alphaTexture.getHeight()/2, alphaTexture.getWidth(), alphaTexture.getHeight(), 1,1,315,false);
@@ -85,8 +85,7 @@ public class AlphaStrike {
         for (int i = PlayScreen.minotaurs.size() - 1; i >= 0; i--) {
             if (PlayScreen.minotaurs.get(i) == (getClosest())) {
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(r.getHitBox(), hitBox))) {
-                    System.out.println("hit");
-                    getClosest().health -= 20;
+                    getClosest().setHealth(-20);
                     for (int v=0;v<=r.getAlphaStrikes().size()-1;v++) {
                         r.getAlphaStrikes().get(v).setX(999999);
                         r.getAlphaStrikes().get(v).setY(999999);
@@ -137,6 +136,10 @@ public class AlphaStrike {
                 float ratiox = xDist / realDist;
                 xIncrement = realDist * (ratiox / 10);
                 yIncrement = realDist * (ratioy / 10);
+                if (PlayScreen.level >= 10){
+                    xIncrement *= 2;
+                    yIncrement*=2;
+                }
                 if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() > initialY) {
                     hitBox.x -= xIncrement;
                     hitBox.y += yIncrement;

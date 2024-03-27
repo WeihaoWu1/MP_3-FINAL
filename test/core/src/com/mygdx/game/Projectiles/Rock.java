@@ -36,10 +36,10 @@ public class Rock {
     public void render(RockTower f){
         if (getClosest() != null && Intersector.overlaps(f.getHitBox(), getClosest().getHitBox())) {
             if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() > f.getY()){
-//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,0,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(rockicon, hitBox.x, hitBox.y, (float) rockTexture.getWidth()/2, (float) rockTexture.getHeight()/2, rockTexture.getWidth(), rockTexture.getHeight(), 1,1,0,false);
             }
             else if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() < f.getY()){
-//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,180,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(rockicon, hitBox.x, hitBox.y, (float) rockTexture.getWidth()/2, (float) rockTexture.getHeight()/2, rockTexture.getWidth(), rockTexture.getHeight(), 1,1,180,false);
             }
             else if (shortestMinotaur.getX() <= f.getX() && shortestMinotaur.getY() > f.getY()) {
                 gdxGame.batch.draw(rockicon, hitBox.x, hitBox.y, (float) rockTexture.getWidth()/2, (float) rockTexture.getHeight()/2, rockTexture.getWidth(), rockTexture.getHeight(), 1,1,315,false);
@@ -91,8 +91,8 @@ public class Rock {
                         r.getRocks().get(v).setX(999999);
                         r.getRocks().get(v).setY(999999);
                     }
-                    if (getClosest().health <= 0) {
-                        PlayScreen.dinero += 10 * (PlayScreen.level);
+                    if (getClosest().getHealth() <= 0) {
+                        PlayScreen.dinero += 30 * (PlayScreen.level);
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {
 //                            for (Slime s : PlayScreen.slimes) {
                             if (PlayScreen.minotaurs.get(j).equals(shortestMinotaur)) {
@@ -137,6 +137,10 @@ public class Rock {
                 float ratiox = xDist / realDist;
                 xIncrement = realDist * (ratiox / 10);
                 yIncrement = realDist * (ratioy / 10);
+                if (PlayScreen.level >= 10){
+                    xIncrement *= 2;
+                    yIncrement*=2;
+                }
                 if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() > initialY) {
                     hitBox.x -= xIncrement;
                     hitBox.y += yIncrement;

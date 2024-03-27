@@ -36,10 +36,10 @@ public class BetaStrike {
     public void render(BetaTower f){
         if (getClosest() != null && Intersector.overlaps(f.getHitBox(), getClosest().getHitBox())) {
             if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() > f.getY()){
-//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,0,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(betaicon, hitBox.x, hitBox.y, (float) betaTexture.getWidth()/2, (float) betaTexture.getHeight()/2, betaTexture.getWidth(), betaTexture.getHeight(), 1,1,0,false);
             }
             else if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() < f.getY()){
-//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,180,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(betaicon, hitBox.x, hitBox.y, (float) betaTexture.getWidth()/2, (float) betaTexture.getHeight()/2, betaTexture.getWidth(), betaTexture.getHeight(), 1,1,180,false);
             }
             else if (shortestMinotaur.getX() <= f.getX() && shortestMinotaur.getY() > f.getY()) {
                 gdxGame.batch.draw(betaicon, hitBox.x, hitBox.y, (float) betaTexture.getWidth()/2, (float) betaTexture.getHeight()/2, betaTexture.getWidth(), betaTexture.getHeight(), 1,1,315,false);
@@ -137,6 +137,10 @@ public class BetaStrike {
                 float ratiox = xDist / realDist;
                 xIncrement = realDist * (ratiox / 10);
                 yIncrement = realDist * (ratioy / 10);
+                if (PlayScreen.level >= 10){
+                    xIncrement *= 2;
+                    yIncrement*=2;
+                }
                 if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() > initialY) {
                     hitBox.x -= xIncrement;
                     hitBox.y += yIncrement;

@@ -242,6 +242,8 @@ public class ArrowTower extends TowerHitBox{
                 return false;
             }
         }
+        if (hitBox.y <= 179) return false;
+
         return true;
     }
 //    public void drawHitboxes(Graphics g){

@@ -14,8 +14,8 @@ import com.mygdx.game.gdxGame;
 
 public class Minotaur {
 
-    private static int FRAME_COLS;
-    private static int FRAME_ROWS = 1;
+    private  int FRAME_COLS;
+    private int FRAME_ROWS = 1;
 //    private static final long COOLDOWN_TIME = 1;
 //    private long lastTimeMoved;
     //minotaur: 18/1 , slime:8/1
@@ -26,12 +26,8 @@ public class Minotaur {
     SpriteBatch spriteBatch;
 
     // A variable for tracking elapsed time for the animation
-    float stateTime;
+    public static float stateTime;
 
-    public static final int LEFT = 0;
-    public static final int RIGHT = 0;
-    public static final int UP = 0;
-    public static final int DOWN = 0;
 
     public static boolean left;
     public static boolean right = true;
@@ -45,7 +41,7 @@ public class Minotaur {
     public static boolean up = true;
     public static boolean down;
 
-    public int health = 300;
+    private float health;
 
     private Rectangle hitBox;
 
@@ -59,6 +55,7 @@ public class Minotaur {
     private boolean needFlip = true;
 
     private boolean stopFlip;
+    public static boolean someoneDied;
 
 
     public Minotaur(float x, float y){
@@ -79,6 +76,21 @@ public class Minotaur {
 //        initializeHitBox(x,y,width,height);
     }
 
+    public void setHealth(float h){
+        health += h;
+    }
+
+    public void bombKill(){
+        if (health <= 0){
+                this.setX(-999999999f);
+                this.setY(-999999999f);
+                PlayScreen.minotaurs.remove(this);
+        }
+    }
+
+    public float getHealth(){
+        return health;
+    }
 
     public void create() {
         if (PlayScreen.level < 10) {
@@ -123,6 +135,8 @@ public class Minotaur {
 
     public void render() {
         if (PlayScreen.level < 10) {
+
+
             stateTime += Gdx.graphics.getDeltaTime();
             if (PlayScreen.mapNum == 2 && !stopFlip) {
                 System.out.println("flipped");
@@ -319,8 +333,9 @@ public class Minotaur {
                     hitBox.y -= 2;
                     System.out.println("x:" + hitBox.x + " y:" + hitBox.y);
                 }
-                if(rand>3 && hitBox.x + 50 >=1760){
-                    System.out.println("jajaaj");
+                if(rand>3 && hitBox.x ==1760){
+                    someoneDied=true;
+                    health =0;
                     PlayScreen.health-=10;
                 }
                 if (rand <= 3 &&  hitBox.y +40 > 1017) {
@@ -513,7 +528,7 @@ public class Minotaur {
                     PlayScreen.health-=10;
                 }
             }
-        hitBox = new Rectangle(hitBox.x, hitBox.y, 10, 10);
+        hitBox = new Rectangle(hitBox.x, hitBox.y, 50, 50);
         gdxGame.batch.draw(currentFrame, hitBox.x-50, hitBox.y-40);
         }
 //        hitBox = new Rectangle(hitBox.x,hitBox.y,10, 10);
@@ -543,7 +558,7 @@ public class Minotaur {
         this.down = down;
     }
 
-    public void dispose() { // SpriteBatches and Textures must always be disposed
+    public void dispose() {
             walkSheet.dispose();
     }
 

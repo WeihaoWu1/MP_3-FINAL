@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -29,8 +30,9 @@ public class PlayScreen implements Screen, InputProcessor {
     private Texture rockTowerButton = new Texture("rocktowericon.png");
     private Texture arrowTowerButton = new Texture("archertowericon.png");
     private Texture harpoonTowerButton = new Texture("harpoontowericon.png");
-    private Texture alphaTowerButton = new Texture("alphaTower.png");
-    private Texture betaTowerButton = new Texture("betaTower.png");
+    private Texture alphaTowerButton = new Texture("alphaIcon.png");
+    private Texture betaTowerButton = new Texture("betaIcon.png");
+    private Texture bombButton = new Texture("nukeButton.png");
     Texture map = new Texture("map4.png");
 
     public static ArrayList<FireTower> firetowers = new ArrayList<FireTower>();
@@ -75,16 +77,16 @@ public class PlayScreen implements Screen, InputProcessor {
     private boolean currentlyBetaTower;
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
-    public static int level = 9;
+    public static int level = 1;
     //    public BitmapFont font = new BitmapFont();
-    private  FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/04B_03__.TTF"));
+    private  FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/CandyCloud-yYYBY.ttf"));
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 
     private BitmapFont font = generator.generateFont(parameter);
 
     private String displayLevel = "Level: " + level;
-    public static int dinero = 100;
+    public static int dinero = 300;//150
     private String displayDinero = "$ " + dinero;
     public static int mapNum;
     private int originalScreenWidth = 1760;
@@ -97,7 +99,25 @@ public class PlayScreen implements Screen, InputProcessor {
     private float xScale;
     private float yScale;
     public static int health = 100;
-    private String displayHealth = "Health: " + health;
+    private Texture heartIcon = new Texture("heart.png");
+    private String displayHealth = "" + health;
+    private int[][] stats = new int[2][2];
+
+    private float startTime;
+    private float endTime;
+
+    private float minTime = Float.MAX_VALUE;
+    private  float maxTime = Float.MIN_VALUE;
+//    private boolean useBomb;
+    public static boolean canBomb = false;
+
+    public static boolean drainHealth;
+    Bomb bomb = new Bomb();
+
+    private int bombLimit;
+
+    private String displayPrices = "$150    $150    $100    $100    $200    $200";
+    private String displayDMG = "10       12       05       07       17      20";
 
     public PlayScreen(gdxGame game, int mapNum) {
         this.game = game;
@@ -122,6 +142,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public void show() {
+        bomb.create();
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 //        shapeRenderer.setColor(Color.RED);
         parameter.size = 20;
@@ -206,42 +227,55 @@ public class PlayScreen implements Screen, InputProcessor {
         selectedArrowTower.create();
         selectedAlphaTower.create();
         selectedBetaTower.create();
+        startTime =  TimeUtils.millis();
 //        shapeRenderer.rect(f.getX(), f.getY(), f.getRadius());
 
     }
 
     @Override
     public void render(float delta) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.RED);
 //        Gdx.gl.glViewport(0, 0, 1760, 1080);
         displayDinero = "$ " + dinero;
-        displayHealth = "Health: " + health;
+        displayHealth = ""+health;
         displayLevel = "Level: " + level;
         Gdx.input.setInputProcessor(this);
         ScreenUtils.clear(1, 1, 1, 1);
 //        viewport.apply();
 //        gdxGame.batch.setProjectionMatrix(camera.combined);
         gdxGame.batch.begin();
-        shapeRenderer.setColor(Color.BLUE);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.setColor(Color.BLUE);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         slimeCount=0;
         gdxGame.batch.draw(map, 0, 110, 1760, 980);
-        font.getData().setScale(5f);
-        if (mapNum==1) font.setColor(Color.PINK);
-        if (mapNum==2) font.setColor(Color.YELLOW);
-        font.draw(gdxGame.batch, displayLevel, 1400, 1050);
-        font.draw(gdxGame.batch, displayDinero, 0, 1050);
-        font.draw(gdxGame.batch, displayHealth, 0, 970);
+        font.getData().setScale(4.5f);
+        if (mapNum==1) font.setColor(Color.BLACK);
+        if (mapNum==2) font.setColor(Color.BLACK);
+        font.draw(gdxGame.batch, displayLevel, 1400, 90);
+        font.draw(gdxGame.batch, displayDinero, 700, 90);
+        gdxGame.batch.draw(heartIcon, 1000, 0, 80, 110);
+        font.draw(gdxGame.batch, displayHealth, 1100, 90);
         gdxGame.batch.draw(fireTowerButton, 0*xScale, 0*yScale, 80*xScale,120*yScale);
         gdxGame.batch.draw(rockTowerButton, 80*xScale, 0*yScale, 80*xScale,120*yScale);
         gdxGame.batch.draw(harpoonTowerButton, 160*xScale, 0*yScale, 80*xScale,120*yScale);
         gdxGame.batch.draw(arrowTowerButton, 240*xScale, 0*yScale, 80*xScale, 120*yScale);
         gdxGame.batch.draw(alphaTowerButton, 320*xScale, 0 * yScale, 80*xScale, 120*yScale);
         gdxGame.batch.draw(betaTowerButton,400*xScale, 0 * yScale, 80*xScale, 120*yScale);
+        gdxGame.batch.draw(bombButton, 550, -15, 150, 150);
+        font.getData().setScale(1.5f);
+        font.setColor(Color.YELLOW);
+        font.draw(gdxGame.batch, displayPrices,0, 100);
+        font.draw(gdxGame.batch, displayDMG, 0, 20);
         for (Minotaur s : minotaurs) {
             s.render();
-//            System.out.println(s);
-            shapeRenderer.rect(s.getX(), s.getY(), 10,10);
+//            shapeRenderer.rect(s.getX(), s.getY(), 10,10);
 
+        }
+        if (Minotaur.someoneDied){
+            for (int i = minotaurs.size()-1; i >=0; i--){
+                minotaurs.get(i).bombKill();
+            }
         }
         for (FireTower f : firetowers) {
             f.render();
@@ -311,14 +345,52 @@ public class PlayScreen implements Screen, InputProcessor {
                 b.intersects(a);
             }
         }
-        if (isDraggingFire) selectedFireTower.render();
-        if (isDraggingRock) selectedRockTower.render();
-        if (isDraggingHarpoon) selectedHarpoonTower.render();
-        if (isDraggingArrow) selectedArrowTower.render();
-        if (isDraggingAlpha) selectedAlphaTower.render();
-        if (isDraggingBeta) selectedBetaTower.render();
+
+        if (canBomb){
+            bomb.render();
+        }
+
+        if (drainHealth){
+            for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--){
+                minotaurs.get(j).setHealth(-500);
+                minotaurs.get(j).bombKill();
+            }
+            drainHealth = false;
+        }
+
+
+
+        if (isDraggingFire){
+            selectedFireTower.render();
+
+            shapeRenderer.circle(selectedFireTower.getX()+selectedFireTower.getRadius(), selectedFireTower.getY(), selectedFireTower.getRadius()+130);
+        }
+        if (isDraggingRock) {
+            selectedRockTower.render();
+            shapeRenderer.circle(selectedRockTower.getX()+selectedRockTower.getRadius(), selectedRockTower.getY(), selectedRockTower.getRadius()+150);
+        }
+        if (isDraggingHarpoon){
+            selectedHarpoonTower.render();
+            shapeRenderer.circle(selectedHarpoonTower.getX()+selectedHarpoonTower.getRadius(), selectedHarpoonTower.getY(), selectedHarpoonTower.getRadius()+100);
+        }
+        if (isDraggingArrow){
+            selectedArrowTower.render();
+            shapeRenderer.circle(selectedArrowTower.getX()+selectedArrowTower.getRadius(), selectedArrowTower.getY(), selectedArrowTower.getRadius()+200);//+170
+        }
+        if (isDraggingAlpha){
+            selectedAlphaTower.render();//+70
+            shapeRenderer.circle(selectedAlphaTower.getX()+selectedAlphaTower.getRadius(), selectedAlphaTower.getY(), selectedAlphaTower.getRadius()+100);
+
+        }
+        if (isDraggingBeta){
+            selectedBetaTower.render();//+120
+            shapeRenderer.circle(selectedBetaTower.getX()+selectedBetaTower.getRadius(), selectedBetaTower.getY(), selectedBetaTower.getRadius()+150);
+        }
 
         if (minotaurs.size() == 0) {
+            endTime =  TimeUtils.millis();
+            if (endTime - startTime < minTime) stats[0][0] = (int) (endTime-startTime);
+            if (endTime - startTime > maxTime) stats[0][1] = (int)(endTime-startTime);
             System.out.println("level increase");
             level++;
             displayLevel = "Level: " + level;
@@ -331,6 +403,9 @@ public class PlayScreen implements Screen, InputProcessor {
 
         gdxGame.batch.end();
         shapeRenderer.end();
+        if (level >15 || health <=0){
+            game.setScreen(new EndScreen(game));
+        }
     }
 
     @Override
@@ -396,6 +471,7 @@ public class PlayScreen implements Screen, InputProcessor {
         alphaTowerButton.dispose();
         betaTowerButton.dispose();
         generator.dispose();
+        bomb.dispose();
 
     }
 
@@ -448,9 +524,14 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (currentlyFireTower && selectedFireTower.checkBox()) {
-            dinero -= 80;
-            firetowers.add(new FireTower(screenX, 1080 - screenY, 300));
+        if (level >= 10 && screenX >= 639 && screenX <= 726 && screenY <= 982 && screenY >= 916 && bombLimit < 1){
+            bombLimit++;
+            canBomb = true;
+            System.out.println("bomb");
+        }
+        if (currentlyFireTower && selectedFireTower.checkBox() ) {
+            dinero -= 150;
+            firetowers.add(new FireTower(screenX, 1080 - screenY, 180));
             firetowers.get(fireTowerIndex).create();
             fireTowerIndex++;
             selectedFireTower = new FireTower(0, 0, 80);
@@ -486,7 +567,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
         if (currentlyHarpoonTower && selectedHarpoonTower.checkBox()) {
             dinero -= 100;
-            harpoontowers.add(new HarpoonTower(screenX, 1080 - screenY-80, 150));
+            harpoontowers.add(new HarpoonTower(screenX, 1080 - screenY-80, 180));
             harpoontowers.get(harpoonTowerIndex).create();
             harpoonTowerIndex++;
             selectedHarpoonTower = new HarpoonTower(160, 0, 80);
@@ -569,9 +650,11 @@ public class PlayScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (currentlyFireTower) {
+//            shapeRenderer.circle(selectedFireTower.getX(), selectedFireTower.getY(), selectedFireTower.getRadius());
             isDraggingFire = true;
             selectedFireTower.setX(Gdx.input.getX());
             selectedFireTower.setY(1080 - Gdx.input.getY());
+//            shapeRenderer.end();
             return true;
         }
         else if (currentlyRockTower){

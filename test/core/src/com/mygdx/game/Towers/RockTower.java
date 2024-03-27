@@ -206,13 +206,18 @@ public class RockTower extends TowerHitBox {
                 return false;
             }
         }
+        if (hitBox.y <= 179) return false;
+
         return true;
     }
     public void setX(float x){
         hitBox.x = x;
+        initializeHitBox(hitBox.x,hitBox.y,hitBox.radius);
+
     }
     public void setY(float y){
         hitBox.y = y;
+        initializeHitBox(hitBox.x,hitBox.y,hitBox.radius);
     }
 
     public ArrayList<Rock> getRocks(){

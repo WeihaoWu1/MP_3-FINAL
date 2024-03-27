@@ -241,6 +241,7 @@ public class HarpoonTower extends TowerHitBox {
                 return false;
             }
         }
+        if (hitBox.y <= 179) return false;
         return true;
     }
 //    public void drawHitboxes(Graphics g){

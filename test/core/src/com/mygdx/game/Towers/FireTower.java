@@ -34,9 +34,15 @@ public class FireTower extends TowerHitBox {
 
     public FireTower(float x, float y, float radius){
         super(x +40,y+40,radius);
-        initializeHitBox(x,y,radius);
+        super.initializeHitBox(x,y,radius);
     }
 
+    public FireTower(){
+        System.out.println("I CALLED NO ARGUMENT CONTRUCTOR!");
+    }
+    public void r(){
+        System.out.println("METHOD OVERRIDDEN");
+    }
     public ArrayList<Fire> getFires(){
         return fires;
     }
@@ -241,6 +247,7 @@ public class FireTower extends TowerHitBox {
                 return false;
             }
         }
+        if (hitBox.y <= 179) return false;
         return true;
     }
 //    public void drawHitboxes(Graphics g){
@@ -248,6 +255,17 @@ public class FireTower extends TowerHitBox {
 //        g1.setColor(Color.BLUE);
 //        g1.draw(hitBox);
 //    }
+
+    public float getX(){
+        return hitBox.x;
+    }
+    public float getY(){
+        return hitBox.y;
+    }
+
+    public float getRadius(){
+        return hitBox.radius;
+    }
 
     public void dispose() { // SpriteBatches and Textures must always be disposed
         walkSheet.dispose();

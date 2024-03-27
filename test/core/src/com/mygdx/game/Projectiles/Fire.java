@@ -45,10 +45,10 @@ public class Fire {
     public void render(FireTower f) {
         if (getClosest() != null && Intersector.overlaps(f.getHitBox(), getClosest().getHitBox())) {
             if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() > f.getY()){
-//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,0,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, (float) fireTexture.getWidth()/2, (float) fireTexture.getHeight()/2, fireTexture.getWidth(), fireTexture.getHeight(), 1,1,0,false);
             }
             else if (shortestMinotaur.getX() == f.getX() && shortestMinotaur.getY() < f.getY()){
-//                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.width, hitBox.height,1,1,180,0,0,(int)hitBox.width, (int)hitBox.height,false, false);
+                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, (float) fireTexture.getWidth()/2, (float) fireTexture.getHeight()/2, fireTexture.getWidth(), fireTexture.getHeight(), 1,1,180,false);
             }
             else if (shortestMinotaur.getX() <= f.getX() && shortestMinotaur.getY() > f.getY()) {
 //                gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, (float) fireTexture.getWidth()/2, (float) fireTexture.getHeight()/2, fireTexture.getWidth(), fireTexture.getHeight(), 1,1,135,false);
@@ -67,7 +67,6 @@ public class Fire {
                 gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y, (float) fireTexture.getWidth()/2, (float) fireTexture.getHeight()/2, fireTexture.getWidth(), fireTexture.getHeight(), 1,1,135,false);
             }
 //            gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y);
-            System.out.println("shooting");
         }
     }
 
@@ -90,8 +89,7 @@ public class Fire {
         for (int i = PlayScreen.minotaurs.size() - 1; i >= 0; i--) {
             if (PlayScreen.minotaurs.get(i) == (getClosest())) {
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(r.getHitBox(), hitBox))) {
-                    System.out.println("hit");
-                    getClosest().health -= 20;
+                    getClosest().setHealth(-10);
                     for (int v=0;v<=r.getFires().size()-1;v++) {
                         r.getFires().get(v).setX(999999);
                         r.getFires().get(v).setY(999999);
@@ -200,27 +198,27 @@ public class Fire {
                 float ratiox = xDist / realDist;
                 xIncrement = realDist * (ratiox / 10);
                 yIncrement = realDist * (ratioy / 10);
+                if (PlayScreen.level >= 10){
+                    xIncrement *= 2;
+                    yIncrement*=2;
+                }
                 if (Intersector.overlaps(f.getHitBox(), hitBox)) {
                     if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() > initialY) {
                         hitBox.x -= xIncrement;
                         hitBox.y += yIncrement;
-                        System.out.println("top left");
                     }
                     if (shortestMinotaur.getX() > initialX && shortestMinotaur.getY() > initialY) {
                         //                System.out.println("GAy1");
                         hitBox.x += xIncrement;
                         hitBox.y += yIncrement;
-                        System.out.println("top right");
                     }
                     if (shortestMinotaur.getX() < initialX && shortestMinotaur.getY() < initialY) {
                         hitBox.x -= xIncrement;
                         hitBox.y -= yIncrement;
-                        System.out.println("bottom left");
                     }
                     if (shortestMinotaur.getX() > initialX && shortestMinotaur.getY() < initialY) {
                         hitBox.x += xIncrement;
                         hitBox.y -= yIncrement;
-                        System.out.println("bottom right");
                     }
 //                    count++;
 //                    hitBox.setX(hitBox.x);
