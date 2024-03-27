@@ -65,12 +65,13 @@ public class Minotaur {
         if (PlayScreen.level >= 10){
             FRAME_COLS = 8;
             walkSheet = new Texture(Gdx.files.internal("slime.png"));
-
+            health = 500;
 
         }
         else{
             FRAME_COLS = 18;
             walkSheet = new Texture(Gdx.files.internal("minotaur3.png"));
+            health = 150;
         }
 
 //        initializeHitBox(x,y,width,height);
@@ -139,7 +140,6 @@ public class Minotaur {
 
             stateTime += Gdx.graphics.getDeltaTime();
             if (PlayScreen.mapNum == 2 && !stopFlip) {
-                System.out.println("flipped");
                 for (TextureRegion region : walkAnimation.getKeyFrames()) {
                     region.flip(true, false); // Flip along the x-axis
                 }
@@ -246,6 +246,12 @@ public class Minotaur {
                 if (hitBox.x == 1555 && hitBox.y >= Integer.MIN_VALUE && hitBox.y <= 282) {
                     hitBox.y -= 2f;
                 }
+                if (hitBox.y == 1080-975) {
+                    someoneDied =true;
+                    health =0;
+//                    bombKill();
+                    PlayScreen.health-=10;
+                }
             }
             if (PlayScreen.mapNum == 2) {
                 if (hitBox.x > 627 && hitBox.y == 835) {
@@ -261,10 +267,7 @@ public class Minotaur {
                     hitBox.x -= 1f;
                 }
                 if (hitBox.y == 725) {
-
-//                stopFlip=false;
-//                hitBox.x = (hitBox.x+hitBox.width)*-1;
-//                hitBox.x+=10;
+                stopFlip=false;
                 }
                 if (hitBox.x == 525 && hitBox.y > 635) {
                     hitBox.y -= 1f;
@@ -286,7 +289,6 @@ public class Minotaur {
                     int min = 1;
                     int range = max - min + 1;
                     rand = (int) (Math.random() * range) + min;
-                    System.out.println(rand);
                 }
                 if (rand > 3 && hitBox.y == 291 && hitBox.x < 882) {
                     hitBox.x++;
@@ -303,8 +305,7 @@ public class Minotaur {
                     hitBox.x--;
                 }
                 if (rand <= 3 && hitBox.x == 827 && hitBox.y == 291) {
-//                stopFlip = false;
-//                hitBox.x = (hitBox.x+hitBox.width)*-1;
+                stopFlip = false;
                 }
                 if (rand <= 3 && hitBox.x <= 728 && hitBox.y >= 181 && hitBox.x >= 624 && hitBox.y <= 291) {
                     hitBox.y -= 1f;
@@ -337,22 +338,21 @@ public class Minotaur {
                     someoneDied=true;
                     health =0;
                     PlayScreen.health-=10;
+//                    bombKill();
                 }
-                if (rand <= 3 &&  hitBox.y +40 > 1017) {
-                    System.out.println("ooga booga");
-                    PlayScreen.minotaurs.remove(this);
-                    PlayScreen.minotaurs.remove(this);
-//                    hitBox.y -= 999999999999f;
-//                    hitBox.x -= 999999999999f;
+                if (rand <= 3 &&  hitBox.y == 1080-975) {
+                    someoneDied=true;
+                    health =0;
                     PlayScreen.health-=10;
+//                    bombKill();
                 }
             }
         gdxGame.batch.draw(currentFrame, hitBox.x, hitBox.y);
         }
         else{   //BOSS
             stateTime += Gdx.graphics.getDeltaTime();
+
             if (PlayScreen.mapNum == 2 && !stopFlip) {
-                System.out.println("flipped");
                 for (TextureRegion region : walkAnimation.getKeyFrames()) {
                     region.flip(true, false); // Flip along the x-axis
                 }
@@ -445,6 +445,12 @@ public class Minotaur {
                 if (hitBox.x == 1490+50 && hitBox.y >= Integer.MIN_VALUE && hitBox.y <= 136+40) {
                     hitBox.y -= 2f;
                 }
+                if (hitBox.y == 1080-975) {
+                    someoneDied=true;
+                    health =0;
+//                    bombKill();
+                    PlayScreen.health-=10;
+                }
 
             }
             if (PlayScreen.mapNum == 2) {
@@ -462,11 +468,7 @@ public class Minotaur {
                     hitBox.x -= 2f;
                 }
                 if (hitBox.y == 658+40){
-
-
 //                stopFlip=false;
-//                hitBox.x = (hitBox.x+hitBox.width)*-1;
-//                hitBox.x+=10;
                 }
                 if (hitBox.x == 454+50 && hitBox.y > 576+40) {
                     hitBox.y -= 2f;
@@ -488,7 +490,6 @@ public class Minotaur {
                     int min = 1;
                     int range = max - min + 1;
                     rand = (int) (Math.random() * range) + min;
-                    System.out.println(rand);
                 }
 
                 if (rand > 3 && hitBox.y <= 222+40 && hitBox.x >= 784+50 && hitBox.x < 882+50 && hitBox.y >= 142+40) {
@@ -505,7 +506,6 @@ public class Minotaur {
                 }
                 if (rand <= 3 && hitBox.x == 827+50&&hitBox.y==291+40){
 //                stopFlip = false;
-//                hitBox.x = (hitBox.x+hitBox.width)*-1;
                 }
                 if (rand <= 3 && hitBox.x <= 648+50 && hitBox.y >= 134+40 && hitBox.x >= 560+50 && hitBox.y <= 222+40) {
                     hitBox.y -= 2f;
@@ -515,16 +515,16 @@ public class Minotaur {
                 if (rand <= 3 && hitBox.x == 560+50 && hitBox.y > 100) {
                     hitBox.y -= 2f;
                 }
-                if(rand>3 && hitBox.x + 50 >=1920){
-                    System.out.println("jajaaj");
+                if(rand>3 && hitBox.x ==1760){
+                    someoneDied=true;
+                    health =0;
+//                    bombKill();
                     PlayScreen.health-=10;
                 }
-                if (rand <= 3 &&  hitBox.y +40 > 1017) {
-                    System.out.println("ooga booga");
-                    PlayScreen.minotaurs.remove(this);
-                    PlayScreen.minotaurs.remove(this);
-//                    hitBox.y -= 999999999999f;
-//                    hitBox.x -= 999999999999f;
+                if (rand <= 3 &&  hitBox.y == 1080-945) {
+                    someoneDied=true;
+                    health =0;
+//                    bombKill();
                     PlayScreen.health-=10;
                 }
             }

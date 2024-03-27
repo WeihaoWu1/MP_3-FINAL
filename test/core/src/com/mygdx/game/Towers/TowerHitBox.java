@@ -27,6 +27,9 @@ public class TowerHitBox {
         hitBox = new Circle(x,y,radius);
 
     }
+    public void r(){
+        System.out.println("t");
+    }
 
     public float getX(){
         return x;

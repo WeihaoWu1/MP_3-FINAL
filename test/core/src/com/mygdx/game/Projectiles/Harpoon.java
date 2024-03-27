@@ -11,6 +11,8 @@ import com.mygdx.game.Screens.PlayScreen;
 import com.mygdx.game.Towers.HarpoonTower;
 import com.mygdx.game.gdxGame;
 
+import static com.mygdx.game.Screens.PlayScreen.level;
+
 public class Harpoon {
     public Minotaur shortestMinotaur;
     private float initialX;
@@ -97,8 +99,13 @@ public class Harpoon {
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {
 //                            for (Slime s : PlayScreen.slimes) {
                             if (PlayScreen.minotaurs.get(j).equals(shortestMinotaur)) {
+                                if(level<10){
+                                    gdxGame.soundEffect.play(0.1f);
+                                }
+                                else {
+                                    gdxGame.soundEffect1.play(0.07f);
+                                }
                                 PlayScreen.minotaurs.get(j).setX(-99999999f);
-                                System.out.println("slime died");
                                 PlayScreen.minotaurs.get(j).setY(-99999999f);
                                 slimeDestroyedByOtherTower(r);
                                 PlayScreen.minotaurs.remove(j);

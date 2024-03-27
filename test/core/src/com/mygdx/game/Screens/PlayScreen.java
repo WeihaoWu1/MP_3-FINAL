@@ -146,7 +146,7 @@ public class PlayScreen implements Screen, InputProcessor {
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 //        shapeRenderer.setColor(Color.RED);
         parameter.size = 20;
-        if (level==2){
+        if (level==10){
             gdxGame.assetManager.load("bossMusic.mp3", Music.class);
             gdxGame.assetManager.finishLoading();
             gdxGame.backgroundMusic.pause();
@@ -162,15 +162,17 @@ public class PlayScreen implements Screen, InputProcessor {
 //                int slimeX = -246;
                 for (int i = 0; i < level * 1.5; i++) {
                     minotaurs.add(new Minotaur(x, 299));
+                    minotaurs.get(i).setHealth((minotaurs.get(i).getHealth()*1.1f*level));
 //                slimes.add(new Slime(x,222));
                     x -= 180;
                     slimeCount++;
                 }
             }
             if (level >= 10){
-                int slimeX = -246;
-                for (int i = 0; i < level;i++){
+                int slimeX = -400;
+                for (int i = 0; i < level/3;i++){
                     minotaurs.add(new Minotaur(slimeX + 50, 222+40));
+                    minotaurs.get(i).setHealth((minotaurs.get(i).getHealth()*1.1f*level));
                     slimeX-=180;
                 }
             }
@@ -180,17 +182,19 @@ public class PlayScreen implements Screen, InputProcessor {
             int x = 1650;
 
             if (level <10) {
-                for (int i = 0; i < 1; i++){
+                for (int i = 0; i < level*1.5; i++){
                    minotaurs.add(new Minotaur(x, 835));
+                   minotaurs.get(i).setHealth((minotaurs.get(i).getHealth()*1.1f*level));
 //                slimes.add(new Slime(x,770));
                     x += 180;
                     slimeCount++;
                 }
             }
             if (level >= 10){
-                int slimeX = 1950;
+                int slimeX = 2500;
                 for (int i = 0; i < level/3;i++){
                     minotaurs.add(new Minotaur(slimeX+50, 770+40)); //+40
+                    minotaurs.get(i).setHealth((minotaurs.get(i).getHealth()*1.1f*level));
                     slimeX-=300;
                     slimeCount++;
                 }
@@ -494,27 +498,27 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (screenX > 0 *xScale && screenX < 80*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY-80 < 120*yScale){
+        if (screenX > 0 *xScale && screenX < 80*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY-80 < 120*yScale&& dinero >= 150){
             currentlyFireTower = true;
             return true;
         }
-        else if (screenX > 80*xScale && screenX < 160*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY-80 < 120*yScale){
+        else if (screenX > 80*xScale && screenX < 160*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY-80 < 120*yScale&& dinero >= 150){
             currentlyRockTower = true;
             return true;
         }
-        else if (screenX > 160*xScale && screenX < 240*xScale && 1080-screenY-80 > 0 *yScale&& 1080-screenY-80 < 120*yScale){
+        else if (screenX > 160*xScale && screenX < 240*xScale && 1080-screenY-80 > 0 *yScale&& 1080-screenY-80 < 120*yScale&& dinero >= 100){
             currentlyHarpoonTower = true;
             return true;
         }
-        else if (screenX > 240 *xScale && screenX < 320*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY -80< 120*yScale){
+        else if (screenX > 240 *xScale && screenX < 320*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY -80< 120*yScale&& dinero >= 100){
             currentlyArrowTower = true;
             return true;
         }
-        else if (screenX > 320 *xScale && screenX < 400 *xScale && 1080-screenY-80 > 0*yScale && 1080-screenY -80< 120*yScale){
+        else if (screenX > 320 *xScale && screenX < 400 *xScale && 1080-screenY-80 > 0*yScale && 1080-screenY -80< 120*yScale&& dinero >= 200){
             currentlyAlphaTower = true;
             return true;
         }
-        else if (screenX > 400 *xScale && screenX < 480*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY -80< 120*yScale){
+        else if (screenX > 400 *xScale && screenX < 480*xScale && 1080-screenY-80 > 0*yScale && 1080-screenY -80< 120*yScale&& dinero >= 200){
             currentlyBetaTower = true;
             return true;
         }
@@ -548,8 +552,8 @@ public class PlayScreen implements Screen, InputProcessor {
         currentlyFireTower = false;
 
         if (currentlyRockTower && selectedRockTower.checkBox()) {
-            dinero -= 100;
-            rocktowers.add(new RockTower(screenX, 1080 - screenY-80, 150));
+            dinero -= 150;
+            rocktowers.add(new RockTower(screenX, 1080 - screenY-80, 230));
             rocktowers.get(rockTowerIndex).create();
             rockTowerIndex++;
             selectedRockTower = new RockTower(80, 0, 80);
@@ -570,7 +574,7 @@ public class PlayScreen implements Screen, InputProcessor {
             harpoontowers.add(new HarpoonTower(screenX, 1080 - screenY-80, 180));
             harpoontowers.get(harpoonTowerIndex).create();
             harpoonTowerIndex++;
-            selectedHarpoonTower = new HarpoonTower(160, 0, 80);
+            selectedHarpoonTower = new HarpoonTower(160, 0,80);
             selectedHarpoonTower.create();
             isDraggingHarpoon = false;
             currentlyHarpoonTower = false;
@@ -586,7 +590,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
         if (currentlyArrowTower && selectedArrowTower.checkBox()) {
             dinero -= 100;
-            arrowtowers.add(new ArrowTower(screenX, 1080 - screenY-80, 150));
+            arrowtowers.add(new ArrowTower(screenX, 1080 - screenY-80, 240));
             arrowtowers.get(arrowTowerIndex).create();
             arrowTowerIndex++;
             selectedArrowTower = new ArrowTower(240, 0, 80);
@@ -603,8 +607,8 @@ public class PlayScreen implements Screen, InputProcessor {
         currentlyArrowTower = false;
 
         if (currentlyAlphaTower && selectedAlphaTower.checkBox()) {
-            dinero -= 100;
-            alphatowers.add(new AlphaTower(screenX, 1080 - screenY-80, 150));
+            dinero -= 200;
+            alphatowers.add(new AlphaTower(screenX, 1080 - screenY-80, 140));
             alphatowers.get(alphaTowerIndex).create();
             alphaTowerIndex++;
             selectedAlphaTower = new AlphaTower(320, 0, 80);
@@ -621,8 +625,8 @@ public class PlayScreen implements Screen, InputProcessor {
         isDraggingAlpha = false;
         currentlyAlphaTower = false;
         if (currentlyBetaTower && selectedBetaTower.checkBox()) {
-            dinero -= 100;
-            betatowers.add(new BetaTower(screenX, 1080 - screenY-80, 150));
+            dinero -= 200;
+            betatowers.add(new BetaTower(screenX, 1080 - screenY-80, 190));
             betatowers.get(betaTowerIndex).create();
             betaTowerIndex++;
             selectedBetaTower = new BetaTower(400, 0, 80);
@@ -637,7 +641,7 @@ public class PlayScreen implements Screen, InputProcessor {
         }
         isDraggingBeta = false;
         currentlyBetaTower = false;
-        System.out.println("x:"+screenX+"y"+screenY);
+        System.out.println("x:"+screenX+"y"+(1080-screenY));
         return false;
 
     }

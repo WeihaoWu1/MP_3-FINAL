@@ -10,6 +10,8 @@ import com.mygdx.game.Screens.PlayScreen;
 import com.mygdx.game.Towers.AlphaTower;
 import com.mygdx.game.gdxGame;
 
+import static com.mygdx.game.Screens.PlayScreen.level;
+
 public class AlphaStrike {
     Minotaur shortestMinotaur;
     private float initialX;
@@ -57,7 +59,6 @@ public class AlphaStrike {
                 gdxGame.batch.draw(alphaicon, hitBox.x, hitBox.y, (float) alphaTexture.getWidth()/2, (float) alphaTexture.getHeight()/2, alphaTexture.getWidth(), alphaTexture.getHeight(), 1,1,135,false);
             }
 //            gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y);
-            System.out.println("shooting");
         }
     }
     public Minotaur getClosest(){
@@ -90,13 +91,18 @@ public class AlphaStrike {
                         r.getAlphaStrikes().get(v).setX(999999);
                         r.getAlphaStrikes().get(v).setY(999999);
                     }
-                    if (getClosest().health <= 0) {
-                        PlayScreen.dinero += 10 * (PlayScreen.level);
+                    if (getClosest().getHealth() <= 0) {
+                        PlayScreen.dinero += 30 * (PlayScreen.level);
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {
 //                            for (Slime s : PlayScreen.slimes) {
                             if (PlayScreen.minotaurs.get(j).equals(shortestMinotaur)) {
+                                if(level<10){
+                                    gdxGame.soundEffect.play(0.1f);
+                                }
+                                else {
+                                    gdxGame.soundEffect1.play(0.07f);
+                                }
                                 PlayScreen.minotaurs.get(j).setX(-99999999f);
-                                System.out.println("slime died");
                                 PlayScreen.minotaurs.get(j).setY(-99999999f);
                                 slimeDestroyedByOtherTower(r);
                                 PlayScreen.minotaurs.remove(j);
@@ -111,7 +117,6 @@ public class AlphaStrike {
     }
 
     public void slimeDestroyedByOtherTower(AlphaTower r) {
-        System.out.println("hit1");
         if (shortestMinotaur != null) {
             for(int i = 0;i<r.getAlphaStrikes().size()-1;i++){
                 r.getAlphaStrikes().get(i).setX(-9999999999f);

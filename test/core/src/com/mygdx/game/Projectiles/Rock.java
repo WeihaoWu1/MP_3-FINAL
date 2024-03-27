@@ -10,6 +10,8 @@ import com.mygdx.game.Screens.PlayScreen;
 import com.mygdx.game.Towers.RockTower;
 import com.mygdx.game.gdxGame;
 
+import static com.mygdx.game.Screens.PlayScreen.level;
+
 public class Rock {
     Minotaur shortestMinotaur;
     private float initialX;
@@ -57,7 +59,6 @@ public class Rock {
                 gdxGame.batch.draw(rockicon, hitBox.x, hitBox.y, (float) rockTexture.getWidth()/2, (float) rockTexture.getHeight()/2, rockTexture.getWidth(), rockTexture.getHeight(), 1,1,135,false);
             }
 //            gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y);
-            System.out.println("shooting");
         }
     }
     public Minotaur getClosest(){
@@ -85,8 +86,7 @@ public class Rock {
         for (int i = PlayScreen.minotaurs.size() - 1; i >= 0; i--) {
             if (PlayScreen.minotaurs.get(i) == (getClosest())) {
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(r.getHitBox(), hitBox))) {
-                    System.out.println("hit");
-                    getClosest().health -= 20;
+                    getClosest().setHealth(-12);
                     for (int v=0;v<=r.getRocks().size()-1;v++) {
                         r.getRocks().get(v).setX(999999);
                         r.getRocks().get(v).setY(999999);
@@ -96,8 +96,13 @@ public class Rock {
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {
 //                            for (Slime s : PlayScreen.slimes) {
                             if (PlayScreen.minotaurs.get(j).equals(shortestMinotaur)) {
+                                if(level<10){
+                                    gdxGame.soundEffect.play(0.1f);
+                                }
+                                else {
+                                    gdxGame.soundEffect1.play(0.07f);
+                                }
                                 PlayScreen.minotaurs.get(j).setX(-99999999f);
-                                System.out.println("slime died");
                                 PlayScreen.minotaurs.get(j).setY(-99999999f);
                                 slimeDestroyedByOtherTower(r);
                                 PlayScreen.minotaurs.remove(j);

@@ -10,6 +10,8 @@ import com.mygdx.game.Screens.PlayScreen;
 import com.mygdx.game.Towers.BetaTower;
 import com.mygdx.game.gdxGame;
 
+import static com.mygdx.game.Screens.PlayScreen.level;
+
 public class BetaStrike {
     Minotaur shortestMinotaur;
     private float initialX;
@@ -57,7 +59,6 @@ public class BetaStrike {
                 gdxGame.batch.draw(betaicon, hitBox.x, hitBox.y, (float) betaTexture.getWidth()/2, (float) betaTexture.getHeight()/2, betaTexture.getWidth(), betaTexture.getHeight(), 1,1,135,false);
             }
 //            gdxGame.batch.draw(fireicon, hitBox.x, hitBox.y);
-            System.out.println("shooting");
         }
     }
     public Minotaur getClosest(){
@@ -85,19 +86,23 @@ public class BetaStrike {
         for (int i = PlayScreen.minotaurs.size() - 1; i >= 0; i--) {
             if (PlayScreen.minotaurs.get(i) == (getClosest())) {
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(r.getHitBox(), hitBox))) {
-                    System.out.println("hit");
-                    getClosest().health -= 20;
+                    getClosest().setHealth(-17);
                     for (int v=0;v<=r.getBetaStrikes().size()-1;v++) {
                         r.getBetaStrikes().get(v).setX(999999);
                         r.getBetaStrikes().get(v).setY(999999);
                     }
-                    if (getClosest().health <= 0) {
-                        PlayScreen.dinero += 10 * (PlayScreen.level);
+                    if (getClosest().getHealth() <= 0) {
+                        PlayScreen.dinero += 30 * (PlayScreen.level);
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {
 //                            for (Slime s : PlayScreen.slimes) {
                             if (PlayScreen.minotaurs.get(j).equals(shortestMinotaur)) {
+                                if(level<10){
+                                    gdxGame.soundEffect.play(0.1f);
+                                }
+                                else {
+                                    gdxGame.soundEffect1.play(0.07f);
+                                }
                                 PlayScreen.minotaurs.get(j).setX(-99999999f);
-                                System.out.println("slime died");
                                 PlayScreen.minotaurs.get(j).setY(-99999999f);
                                 slimeDestroyedByOtherTower(r);
                                 PlayScreen.minotaurs.remove(j);
@@ -112,7 +117,6 @@ public class BetaStrike {
     }
 
     public void slimeDestroyedByOtherTower(BetaTower r) {
-        System.out.println("hit1");
         if (shortestMinotaur != null) {
             for(int i = 0;i<r.getBetaStrikes().size()-1;i++){
                 r.getBetaStrikes().get(i).setX(-9999999999f);

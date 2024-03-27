@@ -11,6 +11,8 @@ import com.mygdx.game.Screens.PlayScreen;
 import com.mygdx.game.Towers.ArrowTower;
 import com.mygdx.game.gdxGame;
 
+import static com.mygdx.game.Screens.PlayScreen.level;
+
 public class Arrow {
     public Minotaur shortestMinotaur;
     private float initialX;
@@ -86,19 +88,23 @@ public class Arrow {
         for (int i = PlayScreen.minotaurs.size() - 1; i >= 0; i--) {
             if (PlayScreen.minotaurs.get(i) == (getClosest())) {
                 if (Intersector.overlaps(hitBox, getClosest().getHitBox()) && (Intersector.overlaps(a.getHitBox(), hitBox))) {
-                    System.out.println("hit");
-                    getClosest().health -= 20;
+                    getClosest().setHealth(-5);
                     for (int v=0;v<=a.getArrows().size()-1;v++) {
                         a.getArrows().get(v).setX(999999);
                         a.getArrows().get(v).setY(999999);
                     }
-                    if (getClosest() != null && getClosest().health <= 0) {
-                        PlayScreen.dinero += 10 * (PlayScreen.level);
+                    if (getClosest() != null && getClosest().getHealth() <= 0) {
+                        PlayScreen.dinero +=30 * (PlayScreen.level);
                         for (int j = PlayScreen.minotaurs.size() - 1; j >= 0; j--) {
 //                            for (Slime s : PlayScreen.slimes) {
                             if (PlayScreen.minotaurs.get(j).equals(shortestMinotaur)) {
+                                if(level<10){
+                                    gdxGame.soundEffect.play(0.1f);
+                                }
+                                else {
+                                    gdxGame.soundEffect1.play(0.07f);
+                                }
                                 PlayScreen.minotaurs.get(j).setX(-99999999f);
-                                System.out.println("slime died");
                                 PlayScreen.minotaurs.get(j).setY(-99999999f);
                                 slimeDestroyedByOtherTower(a);
                                 PlayScreen.minotaurs.remove(j);
@@ -127,7 +133,6 @@ public class Arrow {
 //    }
 
     public void slimeDestroyedByOtherTower(ArrowTower a) {
-        System.out.println("hit1");
         if (shortestMinotaur != null) {
             for(int i = 0;i<a.getArrows().size()-1;i++){
                 a.getArrows().get(i).setX(-9999999999f);

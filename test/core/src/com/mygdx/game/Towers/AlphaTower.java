@@ -173,6 +173,7 @@ public class AlphaTower extends TowerHitBox {
                 System.out.println("5");
                 return false;
             }
+
         }
         if (hitBox.y <= 179) return false;
         return true;
