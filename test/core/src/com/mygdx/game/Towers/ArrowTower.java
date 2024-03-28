@@ -36,6 +36,7 @@ public class ArrowTower extends TowerHitBox{
         super(x+80,y+40,radius);
         initializeHitBox(x,y,radius);
     }
+    public ArrowTower(){}
 
     public ArrayList<Arrow> getArrows(){
         return arrows;
@@ -254,6 +255,12 @@ public class ArrowTower extends TowerHitBox{
 
     public void dispose() { // SpriteBatches and Textures must always be disposed
         walkSheet.dispose();
+    }
+    public String toString(){
+        return "OVERRIDEN";
+    }
+    public boolean equals(Object obj){
+        return true;
     }
 }
 

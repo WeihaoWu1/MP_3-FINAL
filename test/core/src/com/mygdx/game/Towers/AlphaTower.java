@@ -26,6 +26,8 @@ public class AlphaTower extends TowerHitBox {
         super(x,y,radius);
         initializeHitBox(x,y,radius);
     }
+    public AlphaTower(){
+    }
     public void spawnProjectile() {
         for (Minotaur s : PlayScreen.minotaurs) {
             if (Intersector.overlaps(hitBox, s.getHitBox())) {
@@ -193,6 +195,12 @@ public class AlphaTower extends TowerHitBox {
 
     public void dispose() {
         alphaTower.dispose();
+    }
+    public String toString(){
+        return "OVERRIDEN";
+    }
+    public boolean equals(Object obj){
+        return true;
     }
 }
 

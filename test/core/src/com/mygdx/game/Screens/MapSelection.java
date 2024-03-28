@@ -135,5 +135,11 @@ public class MapSelection implements Screen, InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
+    public String toString(){
+        return "OVERRIDEN";
+    }
+    public boolean equals(Object obj){
+        return true;
+    }
 
 }

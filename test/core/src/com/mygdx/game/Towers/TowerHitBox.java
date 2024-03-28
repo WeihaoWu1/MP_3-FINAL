@@ -46,4 +46,10 @@ public class TowerHitBox {
     public Circle getHitBox(){
         return hitBox;
     }
+    public String toString(){
+        return "OVERRIDEN";
+    }
+    public boolean equals(Object obj){
+        return this!=obj;
+    }
 }

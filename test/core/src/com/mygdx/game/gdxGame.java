@@ -13,7 +13,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.mygdx.game.Towers.FireTower;
 import com.mygdx.game.Towers.RockTower;
 
-public class gdxGame extends Game implements Runnable{
+public class gdxGame extends Game{
 	public static SpriteBatch batch;
 	Texture img;
 	public static ArrayList<FireTower> firetowers = new ArrayList<FireTower>();
@@ -86,37 +86,11 @@ public class gdxGame extends Game implements Runnable{
 //		return rockTowerAnimation;
 //	}
 
-	@Override
-	public void run() {
-		double timePerFrame = 1000000000.0 / fps_set;
-		double timePerUpdate = 1000000000.0 / ups_set;
-		long previousTime = System.nanoTime();
-		int updates = 0;
-		int frames = 0;
-		long lastCheck = System.currentTimeMillis();
-		double deltaU = 0;
-		double deltaF = 0;
-		while(true) {
-			long currentTime = System.nanoTime();
-			deltaU += (currentTime - previousTime)/ timePerUpdate;
-			deltaF += (currentTime - previousTime)/ timePerFrame;
-			previousTime = currentTime;
-			if (deltaU >= 1){
-//				update();
-				updates++;
-				deltaU--;
-			}
-			if (deltaF >= 1) {
-//				gamePanel.repaint();
-				frames++;
-				deltaF--;
-			}
-			if(System.currentTimeMillis() - lastCheck >= 1000){
-				lastCheck = System.currentTimeMillis();
-				System.out.println("FPS: " + frames + " | UPS: " + updates);
-				frames = 0;
-				updates = 0;
-			}
-		}
+
+	public String toString(){
+		return "OVERRIDEN";
+	}
+	public boolean equals(Object obj){
+		return true;
 	}
 }

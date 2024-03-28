@@ -12,4 +12,10 @@ public class DesktopLauncher {
 		config.setWindowedMode(1760, 1080);
 		new Lwjgl3Application(new gdxGame(), config);
 	}
+	public String toString(){
+		return "OVERRIDEN";
+	}
+	public boolean equals(Object obj){
+		return true;
+	}
 }

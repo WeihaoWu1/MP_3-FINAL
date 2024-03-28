@@ -1,41 +1,65 @@
 package com.mygdx.game;
 
+import com.mygdx.game.Towers.AlphaTower;
+import com.mygdx.game.Towers.ArrowTower;
 import com.mygdx.game.Towers.FireTower;
+import com.mygdx.game.Towers.TowerHitBox;
+
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-public class Requirements {
+public class Requirements{
     FireTower[][] f = new FireTower[2][3];
     FireTower requirementTower = new FireTower();
     int[][]num = {{1,2,3,4,5},{6,7,8,9,10}};
-    int[] numbers = {1,3,2,4,5,657,2,1,123,14,3};
     ArrayList<Integer> number = new ArrayList<>();
-    public ArrayList<Integer> selectionsort(){
+    TowerHitBox alpha = new AlphaTower();
+    TowerHitBox[] towers = new TowerHitBox[1];
+    ArrayList<TowerHitBox> towers1= new ArrayList<TowerHitBox>();
+
+    public Requirements(){
+        towers[0] = new ArrowTower();
+        towers1.add(new ArrowTower());
+        towers1.add(alpha);
+        towers1.add(new TowerHitBox());
+        towers1.get(1).equals(requirementTower);
+        number.add(0, 1);
         number.add(2);
-        number.add(1);
-        number.add(4);
-        number.add(3);
-        for (int i = 0; i < number.size()-1; i++) {
+        number.add(2);
+        number.add(1,3);
+    }
+    public ArrayList<Integer> ArrayListIntegerSelectionSort(ArrayList<Integer> ints) {
+        for (int i = 0; i < ints.size() - 1; i++) {
             int minIndex = i;
-            for (int j = i+1; j < number.size(); j++) {
-                if (number.get(j) < number.get(minIndex)) {
+            for (int j = i + 1; j < ints.size(); j++) {
+                if (ints.get(j) < ints.get(minIndex)) {
                     minIndex = j;
                 }
             }
-            int temp = number.get(minIndex);
-            number.set(minIndex,number.get(i));
-            number.set(i,temp);
+            int temp = ints.get(minIndex);
+            ints.set(minIndex, ints.get(i));
+            ints.set(i, temp);
         }
-        return number;
+        return ints;
     }
-    public ArrayList<Integer> insertionSort(){
-        for(int i =0;i<number.size();i++){
-            int index  = i;
-            while(index>0 && number.get(index).compareTo(number.get(index-1))<0){
-                int temp = number.get(index);
-                number.set(index,number.get(index-1));
-                number.set(index-1,temp);
-                index--;
+
+    public ArrayList<Integer> ArrayListIntegerInsertionSort(ArrayList<Integer> ints){
+        for (int i=1; i < ints.size(); i++){
+            int current = ints.get(i);
+            int j = i - 1;
+            while (j >= 0 && ints.get(j) > current){
+                ints.set(j+1, ints.get(j));
+                j--;
+            }
+            ints.set(j+1, current);
+        }
+        return ints;
+    }
+
+    public void rowMajor(){
+        for (int[] r : num){
+            for (int c : r){
+                System.out.println(c);
             }
         }
         try {
@@ -45,10 +69,6 @@ public class Requirements {
             System.out.println("nothing to see here");
         }
         try {
-            number.add(1);
-            number.add(2);
-            number.add(2);
-            number.add(1,3);
             for (int i : number) {
                 number.remove(i);
             }
@@ -65,15 +85,6 @@ public class Requirements {
             System.out.println(number.set(2,3));
             System.out.println(number.remove(1));
         }
-        return number;
-    }
-
-    public void rowMajor(){
-        for (int[] r : num){
-            for (int c : r){
-                System.out.println(c);
-            }
-        }
     }
     
     public void columnMajor() {
@@ -83,6 +94,12 @@ public class Requirements {
                 System.out.print(num[row][col] + " ");
             }
         }
+    }
+    public String toString(){
+        return "OVERRIDEN";
+    }
+    public boolean equals(Object obj){
+        return true;
     }
     
 

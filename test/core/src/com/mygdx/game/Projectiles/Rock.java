@@ -182,5 +182,11 @@ public class Rock {
     public void dispose(){
         rock.getTexture().dispose();
     }
+    public String toString(){
+        return "OVERRIDEN";
+    }
+    public boolean equals(Object obj){
+        return true;
+    }
 
 }

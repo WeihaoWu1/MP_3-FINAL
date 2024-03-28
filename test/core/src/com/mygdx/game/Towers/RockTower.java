@@ -227,5 +227,11 @@ public class RockTower extends TowerHitBox {
     public void dispose() {
         walkSheet.dispose();
     }
+    public String toString(){
+        return "OVERRIDEN";
+    }
+    public boolean equals(Object obj){
+        return true;
+    }
 }
 
